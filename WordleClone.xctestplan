@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "D4135481-B170-4132-9258-18409434C964",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:WordleClone.xcodeproj",
+      "identifier" : "2B61AB4E2B1A1C8C00620295",
+      "name" : "WordleClone"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WordleClone.xcodeproj",
+        "identifier" : "2B61AB5E2B1A1C8D00620295",
+        "name" : "WordleCloneTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:WordleClone.xcodeproj",
+        "identifier" : "2B61AB682B1A1C8D00620295",
+        "name" : "WordleCloneUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -17,12 +17,13 @@ struct LetterGridCellModel: Identifiable {
 final class GameScreenViewModel: ObservableObject {
     
     static let numberOfGridCells = 30
+    static let numberOfColumns = 5
     
     var answer: String = ""
     var currentRowIndex = 0
     var lettersEnteredInRow = 0
     var currentLetterIndex: Int {
-        currentRowIndex * lettersEnteredInRow + lettersEnteredInRow
+        (currentRowIndex * Self.numberOfColumns) + lettersEnteredInRow
     }
     
     var isRowFull: Bool {
@@ -60,6 +61,13 @@ final class GameScreenViewModel: ObservableObject {
         guard lettersEnteredInRow > 0 else { return }
         lettersEnteredInRow -= 1
         gridCellModels[currentLetterIndex].letter = ""
+    }
+    
+    func enterKeyPressed() {
+        if isRowFull {
+            currentRowIndex += 1
+            lettersEnteredInRow = 0
+        }
     }
         
 }

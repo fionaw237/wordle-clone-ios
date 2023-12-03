@@ -79,8 +79,25 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertEqual(sut.lettersEnteredInRow, 4)
     }
     
-    func test_enterPressed() {
-        
+    func test_enterKeyPressed_forValidWord_movesToNextRow() {
+        makeSUT(lettersPressed: ["A", "P", "P", "L", "E"])
+        sut.enterKeyPressed()
+        XCTAssertEqual(sut.currentRowIndex, 1)
+        XCTAssertEqual(sut.lettersEnteredInRow, 0)
+    }
+    
+    func test_enterKeyPressed_whenRowIsNotFull_doesNothing() {
+        makeSUT(lettersPressed: ["A", "P", "P", "L"])
+        sut.enterKeyPressed()
+        XCTAssertEqual(sut.currentRowIndex, 0)
+        XCTAssertEqual(sut.lettersEnteredInRow, 4)
+    }
+
+    func test_enterKeyPressed_forValidWord_thenTypingMoreLettersUpdatesGridModel() {
+        makeSUT(lettersPressed: ["A", "P", "P", "L", "E"])
+        sut.enterKeyPressed()
+        sut.letterKeyPressed("Y")
+        XCTAssertEqual(sut.gridCellModels[5].letter, "Y")
     }
     
 }

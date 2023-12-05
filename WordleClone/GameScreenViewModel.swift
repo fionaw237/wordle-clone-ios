@@ -8,22 +8,28 @@
 import Foundation
 import SwiftUI
 
-struct LetterGridCellModel: Identifiable {
-    var id = UUID()
-    var letter: String = ""
-    var backgroundColour: Color = .white
-}
-
 final class GameScreenViewModel: ObservableObject {
     
     static let numberOfGridCells = 30
     static let numberOfColumns = 5
+    
+    let wordGenerator: WordGeneratorProtocol
+    
+    init(wordGenerator: WordGeneratorProtocol) {
+        self.wordGenerator = wordGenerator
+    }
     
     var answer: String = ""
     var currentRowIndex = 0
     var lettersEnteredInRow = 0
     var currentLetterIndex: Int {
         (currentRowIndex * Self.numberOfColumns) + lettersEnteredInRow
+    }
+    var currentGuess: String {
+        let firstLetterIndex = (currentLetterIndex - 5)
+        return (firstLetterIndex...currentLetterIndex).reduce("") { partialResult, index in
+            partialResult + gridCellModels[index].letter.lowercased()
+        }
     }
     
     var isRowFull: Bool {
@@ -42,12 +48,8 @@ final class GameScreenViewModel: ObservableObject {
     }()
     
     func newGame() {
-        guard let generatedAnswer = generateAnswer() else { return }
+        guard let generatedAnswer = wordGenerator.generateWord() else { return }
         answer = generatedAnswer
-    }
-    
-    func generateAnswer() -> String? {
-        return MockData.wordBank.randomElement()
     }
     
     func letterKeyPressed(_ letter: String) {
@@ -64,11 +66,15 @@ final class GameScreenViewModel: ObservableObject {
     }
     
     func enterKeyPressed() {
-        if isRowFull {
+        if isRowFull && isValid(word: currentGuess) {
             currentRowIndex += 1
             lettersEnteredInRow = 0
         }
     }
-        
+    
+    private func isValid(word: String) -> Bool {
+        MockData.wordBank.contains(word)
+    }
+    
 }
 

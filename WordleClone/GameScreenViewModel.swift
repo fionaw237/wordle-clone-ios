@@ -20,20 +20,12 @@ final class GameScreenViewModel: ObservableObject {
     }
     
     var answer: String = ""
+    var currentGuess = ""
     var currentRowIndex = 0
-    var lettersEnteredInRow = 0
-    var currentLetterIndex: Int {
-        (currentRowIndex * Self.numberOfColumns) + lettersEnteredInRow
-    }
-    var currentGuess: String {
-        let firstLetterIndex = (currentLetterIndex - 5)
-        return (firstLetterIndex...currentLetterIndex).reduce("") { partialResult, index in
-            partialResult + gridCellModels[index].letter.lowercased()
-        }
-    }
+    var currentLetterIndex: Int { (currentRowIndex * Self.numberOfColumns) + currentGuess.count }
     
     var isRowFull: Bool {
-        lettersEnteredInRow == 5
+        currentGuess.count == 5
     }
 
     @Published var gridCellModels: [LetterGridCellModel] = {
@@ -55,26 +47,25 @@ final class GameScreenViewModel: ObservableObject {
     func letterKeyPressed(_ letter: String) {
         if !isRowFull {
             gridCellModels[currentLetterIndex] = LetterGridCellModel(letter: letter)
-            lettersEnteredInRow += 1
+            currentGuess += letter.lowercased()
         }
     }
     
     func deleteKeyPressed() {
-        guard lettersEnteredInRow > 0 else { return }
-        lettersEnteredInRow -= 1
+        guard currentGuess.isNotEmpty else { return }    
+        currentGuess.removeLast()
         gridCellModels[currentLetterIndex].letter = ""
     }
     
     func enterKeyPressed() {
         if isRowFull && isValid(word: currentGuess) {
             currentRowIndex += 1
-            lettersEnteredInRow = 0
+            currentGuess = ""
         }
     }
     
     private func isValid(word: String) -> Bool {
-        MockData.wordBank.contains(word)
+        MockData.wordBank.contains(word.lowercased())
     }
     
 }
-

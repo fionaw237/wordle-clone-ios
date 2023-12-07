@@ -63,15 +63,15 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertTrue(!sut.answer.isEmpty)
     }
     
-    func test_letterKeyPressed_atStartOfGame_updatesLettersEnteredInRowCountAndGridModel() {
+    func test_letterKeyPressed_atStartOfGame_updatesCurrentGuessAndGridModels() {
         sut.letterKeyPressed("A")
-        XCTAssertEqual(sut.lettersEnteredInRow, 1)
-        XCTAssertEqual(sut.gridCellModels.first?.letter, "A")
+        XCTAssertEqual(sut.currentGuess, "a")
+        XCTAssertEqual(sut.gridCellModels[0].letter, "A")
     }
     
-    func test_letterKeyPressed_whenRowIsFull_doesNotUpdateLettersEnteredInRowOrRowIndex() {
+    func test_letterKeyPressed_whenRowIsFull_doesNotUpdateCurrentGuessOrRowIndex() {
         makeSUT(lettersPressed: ["A", "P", "P", "L", "E", "S"])
-        XCTAssertEqual(sut.lettersEnteredInRow, 5)
+        XCTAssertEqual(sut.currentGuess, "apple")
         XCTAssertEqual(sut.currentRowIndex, 0)
     }
     
@@ -80,9 +80,9 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertEqual(sut.gridCellModels[5].letter, "")
     }
     
-    func test_deletePressed_whenRowIsEmpty_doesNotDecreaseColumnIndex() {
+    func test_deletePressed_whenRowIsEmpty_doesNotChangeCurrentGuess() {
         sut.deleteKeyPressed()
-        XCTAssertEqual(sut.lettersEnteredInRow, 0)
+        XCTAssertEqual(sut.currentGuess, "")
     }
     
     func test_deletePressed_removesLastEnteredLetter() {
@@ -91,27 +91,33 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertEqual(sut.gridCellModels[0].letter, "A")
         XCTAssertEqual(sut.gridCellModels[1].letter, "P")
         XCTAssertEqual(sut.gridCellModels[2].letter, "")
+        XCTAssertEqual(sut.currentGuess, "ap")
     }
     
     func test_deletePressed_WhenRowIsFull_removesLastLetter() {
         makeSUT(lettersPressed: ["A", "P", "P", "L", "E"])
         sut.deleteKeyPressed()
         XCTAssertEqual(sut.gridCellModels[4].letter, "")
-        XCTAssertEqual(sut.lettersEnteredInRow, 4)
+        XCTAssertEqual(sut.currentGuess, "appl")
     }
     
-    func test_enterKeyPressed_forValidWord_movesToNextRow() {
+    func test_enterKeyPressed_forValidWord_movesToNextRowAndResetCurrentGuess() {
         makeSUT(lettersPressed: ["A", "P", "P", "L", "E"])
         sut.enterKeyPressed()
         XCTAssertEqual(sut.currentRowIndex, 1)
-        XCTAssertEqual(sut.lettersEnteredInRow, 0)
+        XCTAssertEqual(sut.currentGuess, "")
+    }
+    
+    func test_enterKeyPressed_forValidWord_resetsCurrentGuess() {
+        makeSUT(lettersPressed: ["A", "P", "P", "L", "E"])
+        sut.enterKeyPressed()
     }
     
     func test_enterKeyPressed_whenRowIsNotFull_doesNothing() {
         makeSUT(lettersPressed: ["A", "P", "P", "L"])
         sut.enterKeyPressed()
         XCTAssertEqual(sut.currentRowIndex, 0)
-        XCTAssertEqual(sut.lettersEnteredInRow, 4)
+        XCTAssertEqual(sut.currentGuess, "appl")
     }
 
     func test_enterKeyPressed_forValidWord_thenTypingMoreLettersUpdatesGridModel() {
@@ -119,27 +125,14 @@ final class GameScreenViewModelTests: XCTestCase {
         sut.enterKeyPressed()
         sut.letterKeyPressed("Y")
         XCTAssertEqual(sut.gridCellModels[5].letter, "Y")
-    }
-    
-    func test_getCurrentGuess_getsGuessFromGridForFirstRow() {
-        makeSUT(lettersPressed: ["A", "P", "P", "L", "E"])
-        XCTAssertEqual(sut.currentGuess, "apple")
-    }
-    
-    func test_getCurrentGuess_getsGuessFromGridForSecondRow() {
-        makeSUT(lettersPressed: ["A", "P", "P", "L", "E"])
-        sut.enterKeyPressed()
-        ["P", "A", "R", "T", "Y"].forEach { letter in
-            sut.letterKeyPressed(letter)
-        }
-        XCTAssertEqual(sut.currentGuess, "party")
+        XCTAssertEqual(sut.currentGuess, "y")
     }
     
     func test_enterKeyPressed_forInvalidWord_doesNotProceesToNextRow() {
         makeSUT(lettersPressed: ["A", "P", "P", "L", "X"])
         sut.enterKeyPressed()
         XCTAssertEqual(sut.currentRowIndex, 0)
-        XCTAssertEqual(sut.lettersEnteredInRow, 5)
+        XCTAssertEqual(sut.currentGuess, "applx")
     }
     
 }

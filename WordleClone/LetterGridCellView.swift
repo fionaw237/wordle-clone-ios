@@ -9,17 +9,18 @@ import SwiftUI
 
 struct LetterGridCellView: View {
     
-    var letter: String
+    var cellModel: LetterGridCellModel
     
     var body: some View {
-        Text(letter)
+        Text(cellModel.letter)
             .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
             .foregroundStyle(.black)
+            .background(cellModel.backgroundColour)
             .border(.black, width: 1)
             .font(.largeTitle)
     }
 }
 
 #Preview {
-    LetterGridViewCell(letter: "L")
+    LetterGridCellView(cellModel: LetterGridCellModel(letter: "A"))
 }

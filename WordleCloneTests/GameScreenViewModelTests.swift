@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import SwiftUI
 @testable import WordleClone
 
 private class WordGeneratorMock: WordGeneratorProtocol {
@@ -38,9 +39,18 @@ final class GameScreenViewModelTests: XCTestCase {
     // MARK: Helper functions
     
     private func makeSUT(lettersPressed: [String]) {
+        sut = GameScreenViewModel(wordGenerator: WordGenerator())
+        sut.newGame()
         lettersPressed.forEach { letter in
             sut.letterKeyPressed(String(letter))
         }
+    }
+    
+    private func makeGuess(_ guess: String) {
+        Array(arrayLiteral: guess).forEach { letter in
+            sut.letterKeyPressed(letter)
+        }
+        sut.enterKeyPressed()
     }
     
     // MARK: Tests
@@ -133,6 +143,50 @@ final class GameScreenViewModelTests: XCTestCase {
         sut.enterKeyPressed()
         XCTAssertEqual(sut.currentRowIndex, 0)
         XCTAssertEqual(sut.currentGuess, "applx")
+    }
+    
+    func test_setCellBackgroundColours_letterFromGuessNotInAnswer_hasPlainBackgroundColour() {
+        let mockAnswer = "apple"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("paint")
+        XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterNotInAnswer)
+    }
+    
+    func test_setCellBackgroundColours_letterFromGuessInWrongPosition_hasYellowBackgroundColour() {
+        let mockAnswer = "apple"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("paint")
+        XCTAssertEqual(sut.gridCellModels[0].backgroundColour, ColourManager.letterInWrongPosition)
+    }
+    
+    func test_setCellBackgroundColours_letterFromGuessInCorrectPosition_hasGreenBackgroundColour() {
+        let mockAnswer = "thing"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("paint")
+        XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterInCorrectPosition)
+    }
+    
+    func test_setCellBackgroundColours_secondGuessWithCorrectLetter_hasGreenBackgroundColour() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("apple")
+        makeGuess("fancy")
+        XCTAssertEqual(sut.gridCellModels[6].backgroundColour, ColourManager.letterInCorrectPosition)
+    }
+    
+    func test_setCellBackgroundColours_secondGuessWithCorrectWord_hasGreenBackgroundColours() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("apple")
+        makeGuess("paint")
+        (5...9).forEach { index in
+            XCTAssertEqual(sut.gridCellModels[index].backgroundColour, ColourManager.letterInCorrectPosition)
+        }
     }
     
 }

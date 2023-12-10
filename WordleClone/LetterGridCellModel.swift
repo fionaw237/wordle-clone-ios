@@ -18,7 +18,7 @@ enum LetterGuessedState {
 struct LetterGridCellModel: Identifiable {
     var id = UUID()
     var letter: String = ""
-    var backgroundColour: Color = .white
+    var backgroundColour: Color = Color(UIColor.systemBackground)
     
     func colour(for guessedState: LetterGuessedState) -> Color {
         return .white

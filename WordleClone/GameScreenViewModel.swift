@@ -42,6 +42,7 @@ final class GameScreenViewModel: ObservableObject {
     func newGame() {
         guard let generatedAnswer = wordGenerator.generateWord() else { return }
         answer = generatedAnswer
+        print("Answer: \(answer)")
     }
     
     func letterKeyPressed(_ letter: String) {
@@ -59,13 +60,37 @@ final class GameScreenViewModel: ObservableObject {
     
     func enterKeyPressed() {
         if isRowFull && isValid(word: currentGuess) {
+            setCellBackgroundColours()
             currentRowIndex += 1
             currentGuess = ""
         }
     }
-    
+        
     private func isValid(word: String) -> Bool {
         MockData.wordBank.contains(word.lowercased())
     }
+    
+    func setCellBackgroundColours() {
+        currentGuess.enumerated().forEach { index, letter in
+            print(currentRowIndex*Self.numberOfColumns + index)
+            gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = getCellBackgroundColour(index: index, letter: letter)
+        }
+    }
+    
+    func getCellBackgroundColour(index: Int, letter: Character) -> Color {
+        let answerArray = Array(answer)
+        if answerArray[index] == letter {
+            return ColourManager.letterInCorrectPosition
+        }
+        if answerArray.contains(letter) {
+            return ColourManager.letterInWrongPosition
+        }
+        return ColourManager.letterNotInAnswer
+    }
+    
+    private func gridIndexFromCurrentGuessLetterIndex(_ letterIndex: Int) -> Int {
+        currentRowIndex*Self.numberOfColumns + letterIndex
+    }
+
     
 }

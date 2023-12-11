@@ -1,3 +1,3 @@
-# Wordle Clone iOS (SwiftUI app using TDD)
+# Wordle Clone iOS 
 
-Work in progress :smile: 
+Clone of Wordle for iOS using SwiftUI and TDD. A work in progress :smile: 

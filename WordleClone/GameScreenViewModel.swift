@@ -27,6 +27,11 @@ final class GameScreenViewModel: ObservableObject {
     var isRowFull: Bool {
         currentGuess.count == 5
     }
+    var isGameFinished: Bool {
+        (currentGuess == answer) || (currentRowIndex == 5)
+    }
+    
+    @Published var showGameCompletedModal = false
 
     @Published var gridCellModels: [LetterGridCellModel] = {
         // return Array(repeating: GuessedLetter(), count: 30)
@@ -61,13 +66,21 @@ final class GameScreenViewModel: ObservableObject {
     func enterKeyPressed() {
         if isRowFull && isValid(word: currentGuess) {
             setCellBackgroundColours()
-            currentRowIndex += 1
-            currentGuess = ""
+            if isGameFinished {
+                showGameCompletedModal = true
+            } else {
+                moveToNextRow()
+            }
         }
     }
         
     private func isValid(word: String) -> Bool {
         MockData.wordBank.contains(word.lowercased())
+    }
+    
+    private func moveToNextRow() {
+        currentRowIndex += 1
+        currentGuess = ""
     }
     
     func setCellBackgroundColours() {
@@ -89,7 +102,7 @@ final class GameScreenViewModel: ObservableObject {
     }
     
     private func gridIndexFromCurrentGuessLetterIndex(_ letterIndex: Int) -> Int {
-        currentRowIndex*Self.numberOfColumns + letterIndex
+        (currentRowIndex * Self.numberOfColumns) + letterIndex
     }
 
     

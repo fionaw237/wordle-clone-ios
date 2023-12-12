@@ -112,8 +112,10 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_enterKeyPressed_forValidWord_movesToNextRowAndResetCurrentGuess() {
-        makeSUT(lettersPressed: ["A", "P", "P", "L", "E"])
-        sut.enterKeyPressed()
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("apple")
         XCTAssertEqual(sut.currentRowIndex, 1)
         XCTAssertEqual(sut.currentGuess, "")
     }
@@ -188,5 +190,35 @@ final class GameScreenViewModelTests: XCTestCase {
             XCTAssertEqual(sut.gridCellModels[index].backgroundColour, ColourManager.letterInCorrectPosition)
         }
     }
+    
+    func test_showGameCompletedModal_setToTrueWhenGameIsWon() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("paint")
+        XCTAssertTrue(sut.showGameCompletedModal)
+    }
+    
+    func test_showGameCompletedModel_remainsFalseWhenGameNotFinished() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("apple")
+        XCTAssertFalse(sut.showGameCompletedModal)
+    }
+    
+    func test_showGameCompletedModal_setToTrueWhenGameOver() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("teeth")
+        makeGuess("teeth")
+        makeGuess("teeth")
+        makeGuess("teeth")
+        makeGuess("teeth")
+        makeGuess("teeth")
+        XCTAssertTrue(sut.showGameCompletedModal)
+    }
+    
     
 }

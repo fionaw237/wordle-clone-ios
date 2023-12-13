@@ -23,6 +23,9 @@
 		2B7696252B262D3F0078DF68 /* ColourManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696242B262D3F0078DF68 /* ColourManager.swift */; };
 		2B76962F2B2A09D10078DF68 /* GameCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76962E2B2A09D10078DF68 /* GameCompletedView.swift */; };
 		2B7696312B2A09FA0078DF68 /* CircleCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696302B2A09FA0078DF68 /* CircleCloseButton.swift */; };
+		2B7696372B2A133B0078DF68 /* KeyboardDeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696362B2A133B0078DF68 /* KeyboardDeleteButton.swift */; };
+		2B7696392B2A13620078DF68 /* KeyboardEnterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696382B2A13620078DF68 /* KeyboardEnterButton.swift */; };
+		2B76963B2B2A13990078DF68 /* KeyboardLetterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76963A2B2A13990078DF68 /* KeyboardLetterButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +66,9 @@
 		2B7696242B262D3F0078DF68 /* ColourManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourManager.swift; sourceTree = "<group>"; };
 		2B76962E2B2A09D10078DF68 /* GameCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCompletedView.swift; sourceTree = "<group>"; };
 		2B7696302B2A09FA0078DF68 /* CircleCloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCloseButton.swift; sourceTree = "<group>"; };
+		2B7696362B2A133B0078DF68 /* KeyboardDeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardDeleteButton.swift; sourceTree = "<group>"; };
+		2B7696382B2A13620078DF68 /* KeyboardEnterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardEnterButton.swift; sourceTree = "<group>"; };
+		2B76963A2B2A13990078DF68 /* KeyboardLetterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLetterButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +167,7 @@
 		2B7696322B2A108C0078DF68 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2B7696352B2A13280078DF68 /* Keyboard Buttons */,
 				2B61AB542B1A1C8C00620295 /* GameScreenView.swift */,
 				2B1EA1522B1F7EA1003802E7 /* LetterGridCellView.swift */,
 				2B76962E2B2A09D10078DF68 /* GameCompletedView.swift */,
@@ -186,6 +193,16 @@
 				2B7696242B262D3F0078DF68 /* ColourManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		2B7696352B2A13280078DF68 /* Keyboard Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				2B7696362B2A133B0078DF68 /* KeyboardDeleteButton.swift */,
+				2B7696382B2A13620078DF68 /* KeyboardEnterButton.swift */,
+				2B76963A2B2A13990078DF68 /* KeyboardLetterButton.swift */,
+			);
+			path = "Keyboard Buttons";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -324,10 +341,13 @@
 				2B61AB802B1A36F200620295 /* MockData.swift in Sources */,
 				2B61AB552B1A1C8C00620295 /* GameScreenView.swift in Sources */,
 				2B1EA1552B1F7F30003802E7 /* WordGenerator.swift in Sources */,
+				2B7696392B2A13620078DF68 /* KeyboardEnterButton.swift in Sources */,
 				2B7696312B2A09FA0078DF68 /* CircleCloseButton.swift in Sources */,
 				2B61AB532B1A1C8C00620295 /* WordleCloneApp.swift in Sources */,
 				2B1EA1572B1F7F81003802E7 /* LetterGridCellModel.swift in Sources */,
+				2B7696372B2A133B0078DF68 /* KeyboardDeleteButton.swift in Sources */,
 				2B1EA1532B1F7EA1003802E7 /* LetterGridCellView.swift in Sources */,
+				2B76963B2B2A13990078DF68 /* KeyboardLetterButton.swift in Sources */,
 				2B7696252B262D3F0078DF68 /* ColourManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

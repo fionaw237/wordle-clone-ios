@@ -7,76 +7,23 @@
 
 import SwiftUI
 
-struct KeyboardDeleteButton: View {
-    var onPress: () -> Void
-    
-    let letterKeyWidth = (UIScreen.main.bounds.width - 77.0) / 10
-    
-    let keyWidth: CGFloat = ((UIScreen.main.bounds.width - 9 * (UIScreen.main.bounds.width - 77.0) / 10)) / 2
-    
-    var body: some View {
-        Button {
-            onPress()
-        } label: {
-            Image(systemName: "delete.left")
-                .frame(width: keyWidth, height: 60)
-                .background(.gray)
-                .foregroundColor(.white)
-                .cornerRadius(4.0)
-        }
-    }
-}
-
-struct KeyboardEnterButton: View {
-    
-    var onPress: () -> Void
-    
-    let letterKeyWidth = (UIScreen.main.bounds.width - 77.0) / 10
-    
-    let keyWidth: CGFloat = ((UIScreen.main.bounds.width - 9 * (UIScreen.main.bounds.width - 77.0) / 10)) / 2
-    
-    var body: some View {
-        Button {
-            onPress()
-        } label: {
-            Text("ENTER")
-                .frame(width: keyWidth, height: 60)
-                .background(.gray)
-                .foregroundColor(.white)
-                .cornerRadius(4.0)
-                .font(.footnote)
-        }
-    }
-}
-
-struct KeyboardLetterButton: View {
-    
-    var letterModel: KeyboardLetterKeyModel
-    
-    let keyWidth: CGFloat = (UIScreen.main.bounds.width - 77.0) / 10
-    
-    var body: some View {
-        Button {
-            letterModel.onPress()
-        } label: {
-            Text(letterModel.value)
-                .frame(width: keyWidth, height: 60)
-                .background(letterModel.backgroundColour)
-                .foregroundColor(.white)
-                .cornerRadius(4.0)
-        }
-        .disabled(letterModel.isDisabled)
-    }
-}
-
-
 struct GameScreenView: View {
     
     @StateObject private var viewModel = GameScreenViewModel(wordGenerator: WordGenerator())
     
     var body: some View {
         ZStack {
-            VStack {                
+            VStack {
+                HStack {
+                    Spacer()
+                    Text("Wordle")
+                        .font(.title)
+                        .foregroundStyle(Color(UIColor.label))
+                        .bold()
+                    Spacer()
+                }
+                .padding(.horizontal, 20)
+                
                 LazyVGrid(columns: viewModel.gridColumns) {
                     ForEach(viewModel.gridCellModels) { cellModel in
                         LetterGridCellView(cellModel: cellModel)
@@ -111,6 +58,15 @@ struct GameScreenView: View {
             }
             .blur(radius: viewModel.showGameCompletedModal ? 5 : 0)
             .padding(.top, 20)
+            .overlay(alignment: .topTrailing) {
+                Button {
+                    viewModel.resetGrid()
+                } label: {
+                    Image(systemName: "arrow.circlepath")
+                        .foregroundColor(Color(UIColor.label))
+                        .padding(20)
+                }
+            }
 
             if viewModel.showGameCompletedModal {
                 GameCompletedView(isVisible: $viewModel.showGameCompletedModal)

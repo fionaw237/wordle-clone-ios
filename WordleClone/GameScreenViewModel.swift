@@ -13,6 +13,14 @@ final class GameScreenViewModel: ObservableObject {
     static let numberOfGridCells = 30
     static let numberOfColumns = 5
     
+    let gridColumns: [GridItem] = [
+        GridItem(),
+        GridItem(),
+        GridItem(),
+        GridItem(),
+        GridItem()
+    ]
+    
     let wordGenerator: WordGeneratorProtocol
     
     init(wordGenerator: WordGeneratorProtocol) {
@@ -31,7 +39,7 @@ final class GameScreenViewModel: ObservableObject {
         (currentGuess == answer) || (currentRowIndex == 5)
     }
     
-    @Published var showGameCompletedModal = false
+    @Published var showGameCompletedModal = true
 
     @Published var gridCellModels: [LetterGridCellModel] = {
         // return Array(repeating: GuessedLetter(), count: 30)
@@ -44,10 +52,29 @@ final class GameScreenViewModel: ObservableObject {
         return result
     }()
     
+    func getInitialGridCells() -> [LetterGridCellModel] {
+        // return Array(repeating: GuessedLetter(), count: 30)
+        // is not working for some reason so using this
+        // alternative approach
+        var result: [LetterGridCellModel] = []
+        for _ in 0..<Self.numberOfGridCells {
+            result.append(LetterGridCellModel())
+        }
+        return result
+        
+    }
+    
     func newGame() {
         guard let generatedAnswer = wordGenerator.generateWord() else { return }
         answer = generatedAnswer
         print("Answer: \(answer)")
+    }
+    
+    func resetGrid() {
+        currentGuess = ""
+        currentRowIndex = 0
+        gridCellModels = getInitialGridCells()
+        newGame()
     }
     
     func letterKeyPressed(_ letter: String) {

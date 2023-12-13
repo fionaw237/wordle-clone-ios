@@ -53,6 +53,10 @@ final class GameScreenViewModelTests: XCTestCase {
         sut.enterKeyPressed()
     }
     
+    private func makeRepeatedGuess(_ guess: String, noOfTimes: Int) {
+        for _ in 1...noOfTimes { makeGuess(guess) }
+    }
+    
     // MARK: Tests
     
     func test_newGame_callsWordGenerator_setsAnswerProperty() {
@@ -211,13 +215,19 @@ final class GameScreenViewModelTests: XCTestCase {
         let mockAnswer = "paint"
         sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
         sut.newGame()
-        makeGuess("teeth")
-        makeGuess("teeth")
-        makeGuess("teeth")
-        makeGuess("teeth")
-        makeGuess("teeth")
-        makeGuess("teeth")
+        makeRepeatedGuess("teeth", noOfTimes: 6)
         XCTAssertTrue(sut.showGameCompletedModal)
+    }
+    
+    func test_newGame_resetsGrid() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeRepeatedGuess("teeth", noOfTimes: 6)
+        sut.resetGrid()
+        XCTAssertEqual(sut.currentGuess, "")
+        XCTAssertEqual(sut.currentRowIndex, 0)
+        XCTAssertTrue(sut.gridCellModels.allSatisfy { gridModel in gridModel.letter == "" })
     }
     
     

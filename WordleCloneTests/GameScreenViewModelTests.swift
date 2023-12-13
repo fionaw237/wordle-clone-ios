@@ -156,7 +156,7 @@ final class GameScreenViewModelTests: XCTestCase {
         sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
         sut.newGame()
         makeGuess("paint")
-        XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterNotInAnswer)
+        XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterNotInAnswerCell)
     }
     
     func test_setCellBackgroundColours_letterFromGuessInWrongPosition_hasYellowBackgroundColour() {
@@ -231,15 +231,54 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_initialiseKeyboard_setsKeyboardLetters() {
-        let expectedLettersFirstRow = "QWERTYUIOP".map { String($0) }
-        let expectedLettersSecondRow = "ASDFGHJKL".map { String($0) }
-        let expectedLettersThirdRow = "ZXCVBNM".map { String($0) }
-        
+        let expectedKeyboardLetters = "QWERTYUIOPASDFGHJKLZXCVBNM".map { String($0) }
         sut.newGame()
-
-        XCTAssertEqual(sut.keyboardFirstRowLetters.map { $0.value }, expectedLettersFirstRow)
-        XCTAssertEqual(sut.keyboardSecondRowLetters.map { $0.value }, expectedLettersSecondRow)
-        XCTAssertEqual(sut.keyboardThirdRowLetters.map { $0.value }, expectedLettersThirdRow)
+        XCTAssertEqual(sut.letterKeyModels.map { $0.value }, expectedKeyboardLetters)
+    }
+    
+    func test_setLetterBackgroundColour_setsLetterToGreenWhenGuessedLetterInCorrectPosition() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("handy")
+        XCTAssertEqual(sut.letterKeyModels[10].backgroundColour, ColourManager.letterInCorrectPosition)
+    }
+    
+    func test_setLetterBackgroundColour_setsLetterToYellowWhenGuessedLetterIsNotInCorrectPosition() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("handy")
+        XCTAssertEqual(sut.letterKeyModels[24].backgroundColour, ColourManager.letterInWrongPosition)
+    }
+    
+    func test_setLetterBackgroundColour_setsLetterToDarkGrayWhenGuessedLetterIsNotInAnswer() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("handy")
+        XCTAssertEqual(sut.letterKeyModels[15].backgroundColour, ColourManager.letterNotInAnswerKeyboard)
+        XCTAssertEqual(sut.letterKeyModels[12].backgroundColour, ColourManager.letterNotInAnswerKeyboard)
+        XCTAssertEqual(sut.letterKeyModels[5].backgroundColour, ColourManager.letterNotInAnswerKeyboard)
+    }
+    
+    func test_setLetterBackgroundColour_KeyDisabledWhenLetterNotInAnswer() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("handy")
+        XCTAssertTrue(sut.letterKeyModels[15].isDisabled)
+        XCTAssertTrue(sut.letterKeyModels[12].isDisabled)
+        XCTAssertTrue(sut.letterKeyModels[5].isDisabled)
+    }
+    
+    func test_setLetterBackgroundColour_KeyEnabledWhenLetterInAnswer() {
+        let mockAnswer = "paint"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("handy")
+        XCTAssertFalse(sut.letterKeyModels[10].isDisabled)
+        XCTAssertFalse(sut.letterKeyModels[24].isDisabled)
     }
     
 }

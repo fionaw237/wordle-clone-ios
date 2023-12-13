@@ -8,15 +8,18 @@
 import Foundation
 import SwiftUI
 
-protocol KeyboardKey: Identifiable {
-    var id: UUID { get set }
-    var onPress: () -> Void { get set }
-}
-
-struct KeyboardKeyModel: KeyboardKey {
+struct KeyboardLetterKeyModel: Identifiable {
     var id = UUID()
     var value: String
-    var onPress = {}
+    var isDisabled: Bool = false
+    var onPress: () -> Void
+    var backgroundColour: Color = .gray {
+        didSet {
+            if backgroundColour == ColourManager.letterNotInAnswerKeyboard {
+                isDisabled = true
+            }
+        }
+    }
 }
 
 final class GameScreenViewModel: ObservableObject {
@@ -32,9 +35,7 @@ final class GameScreenViewModel: ObservableObject {
         GridItem()
     ]
     
-    var keyboardFirstRowLetters: [KeyboardKeyModel] = []
-    var keyboardSecondRowLetters: [KeyboardKeyModel] = []
-    var keyboardThirdRowLetters: [KeyboardKeyModel] = []
+    var letterKeyModels: [KeyboardLetterKeyModel] = []
     
     let wordGenerator: WordGeneratorProtocol
     
@@ -44,27 +45,11 @@ final class GameScreenViewModel: ObservableObject {
     }
     
     private func initialiseKeyboard() {
-        func getKeyboardLetterModels(from lettersString: String) -> [KeyboardKeyModel] {
-            return lettersString.map { letter in
-                let stringValue = String(letter)
-                return KeyboardKeyModel(value: stringValue, onPress: { self.letterKeyPressed(stringValue) })
-            }
+        let letters = "QWERTYUIOPASDFGHJKLZXCVBNM"
+        letterKeyModels = letters.map { letter in
+            let stringValue = String(letter)
+            return KeyboardLetterKeyModel(value: stringValue, onPress: { self.letterKeyPressed(stringValue) })
         }
-        
-        keyboardFirstRowLetters =  {
-            let letters = "QWERTYUIOP"
-            return getKeyboardLetterModels(from: letters)
-        }()
-        
-        keyboardSecondRowLetters = {
-            let letters = "ASDFGHJKL"
-            return getKeyboardLetterModels(from: letters)
-        }()
-        
-        keyboardThirdRowLetters = {
-            let letters = "ZXCVBNM"
-            return getKeyboardLetterModels(from: letters)
-        }()
     }
     
     var answer: String = ""
@@ -133,6 +118,7 @@ final class GameScreenViewModel: ObservableObject {
     func enterKeyPressed() {
         if isRowFull && isValid(word: currentGuess) {
             setCellBackgroundColours()
+            setKeyboardKeyBackgroundColours()
             if isGameFinished {
                 showGameCompletedModal = true
             } else {
@@ -152,9 +138,26 @@ final class GameScreenViewModel: ObservableObject {
     
     func setCellBackgroundColours() {
         currentGuess.enumerated().forEach { index, letter in
-            print(currentRowIndex*Self.numberOfColumns + index)
             gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = getCellBackgroundColour(index: index, letter: letter)
         }
+    }
+    
+    func setKeyboardKeyBackgroundColours() {
+        currentGuess.enumerated().forEach { index, letter in
+            guard let letterIndex = letterKeyModels.firstIndex(where: { $0.value.lowercased() == String(letter) }) else { return }
+            letterKeyModels[letterIndex].backgroundColour = getLetterKeyBackgroundColour(index: index, letter: letter)
+        }
+    }
+    
+    func getLetterKeyBackgroundColour(index: Int, letter: Character) -> Color {
+        let answerArray = Array(answer)
+        if answerArray[index] == letter {
+            return ColourManager.letterInCorrectPosition
+        }
+        if answerArray.contains(letter) {
+            return ColourManager.letterInWrongPosition
+        }
+        return ColourManager.letterNotInAnswerKeyboard
     }
     
     func getCellBackgroundColour(index: Int, letter: Character) -> Color {
@@ -165,7 +168,7 @@ final class GameScreenViewModel: ObservableObject {
         if answerArray.contains(letter) {
             return ColourManager.letterInWrongPosition
         }
-        return ColourManager.letterNotInAnswer
+        return ColourManager.letterNotInAnswerCell
     }
     
     private func gridIndexFromCurrentGuessLetterIndex(_ letterIndex: Int) -> Int {

@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 struct ColourManager {
-    static let letterNotInAnswer = Color(UIColor.systemBackground)
+    static let letterNotInAnswerCell = Color(UIColor.systemBackground)
     static let letterInWrongPosition = Color.yellow
     static let letterInCorrectPosition = Color.green
+    static let letterNotInAnswerKeyboard = Color(.darkGray)
 }

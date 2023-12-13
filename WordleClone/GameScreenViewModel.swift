@@ -34,9 +34,7 @@ final class GameScreenViewModel: ObservableObject {
         GridItem(),
         GridItem()
     ]
-    
-    var letterKeyModels: [KeyboardLetterKeyModel] = []
-    
+        
     let wordGenerator: WordGeneratorProtocol
     
     init(wordGenerator: WordGeneratorProtocol) {
@@ -63,6 +61,8 @@ final class GameScreenViewModel: ObservableObject {
     var isGameFinished: Bool {
         (currentGuess == answer) || (currentRowIndex == 5)
     }
+    
+    @Published var letterKeyModels: [KeyboardLetterKeyModel] = []
     
     @Published var showGameCompletedModal = false
 

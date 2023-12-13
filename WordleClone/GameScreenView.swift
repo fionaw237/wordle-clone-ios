@@ -7,133 +7,123 @@
 
 import SwiftUI
 
-struct GameScreenView: View {
+struct KeyboardDeleteButton: View {
+    var onPress: () -> Void
     
-    let columns: [GridItem] = [
-        GridItem(),
-        GridItem(),
-        GridItem(),
-        GridItem(),
-        GridItem()
-    ]
+    let letterKeyWidth = (UIScreen.main.bounds.width - 77.0) / 10
+    
+    let keyWidth: CGFloat = ((UIScreen.main.bounds.width - 9 * (UIScreen.main.bounds.width - 77.0) / 10)) / 2
+    
+    var body: some View {
+        Button {
+            onPress()
+        } label: {
+            Image(systemName: "delete.left")
+                .frame(width: keyWidth, height: 60)
+                .background(.gray)
+                .foregroundColor(.white)
+                .cornerRadius(4.0)
+        }
+    }
+}
+
+struct KeyboardEnterButton: View {
+    
+    var onPress: () -> Void
+    
+    let letterKeyWidth = (UIScreen.main.bounds.width - 77.0) / 10
+    
+    let keyWidth: CGFloat = ((UIScreen.main.bounds.width - 9 * (UIScreen.main.bounds.width - 77.0) / 10)) / 2
+    
+    var body: some View {
+        Button {
+            onPress()
+        } label: {
+            Text("ENTER")
+                .frame(width: keyWidth, height: 60)
+                .background(.gray)
+                .foregroundColor(.white)
+                .cornerRadius(4.0)
+                .font(.footnote)
+        }
+    }
+}
+
+struct KeyboardLetterButton: View {
+    
+    var letterModel: KeyboardLetterKeyModel
+    
+    let keyWidth: CGFloat = (UIScreen.main.bounds.width - 77.0) / 10
+    
+    var body: some View {
+        Button {
+            letterModel.onPress()
+        } label: {
+            Text(letterModel.value)
+                .frame(width: keyWidth, height: 60)
+                .background(letterModel.backgroundColour)
+                .foregroundColor(.white)
+                .cornerRadius(4.0)
+        }
+        .disabled(letterModel.isDisabled)
+    }
+}
+
+
+struct GameScreenView: View {
     
     @StateObject private var viewModel = GameScreenViewModel(wordGenerator: WordGenerator())
     
     var body: some View {
-        VStack {
-            LazyVGrid(columns: columns) {
-                ForEach(viewModel.gridCellModels) { cellModel in
-                    LetterGridCellView(cellModel: cellModel)
+        ZStack {
+            VStack {
+                LazyVGrid(columns: viewModel.gridColumns) {
+                    ForEach(viewModel.gridCellModels) { cellModel in
+                        LetterGridCellView(cellModel: cellModel)
+                    }
                 }
-            }
-            .padding(.top, 80)
-            .onAppear {
-                viewModel.newGame()
-            }
-            
-            
-            Spacer()
-            HStack {
-                Button {
-                    viewModel.letterKeyPressed("A")
-                } label: {
-                    Text("A")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                .padding(.top, 80)
+                .padding(.horizontal, 30)
+                .onAppear {
+                    viewModel.newGame()
+                }
+                
+                
+                Spacer()
+                HStack {
+                    ForEach(viewModel.letterKeyModels[0...9]) { letterModel in
+                        KeyboardLetterButton(letterModel: letterModel)
+                    }
+                }
+                
+                HStack {
+                    ForEach(viewModel.letterKeyModels[10...18]) { letterModel in
+                        KeyboardLetterButton(letterModel: letterModel)
+                    }
+                }
+                
+                HStack {
+                    KeyboardEnterButton(onPress: { viewModel.enterKeyPressed() })
+                    ForEach(viewModel.letterKeyModels[19...25]) { letterModel in
+                        KeyboardLetterButton(letterModel: letterModel)
+                    }
+                    KeyboardDeleteButton(onPress: { viewModel.deleteKeyPressed() })
                 }
                 
                 Button {
-                    viewModel.letterKeyPressed("P")
+                    viewModel.resetGrid()
                 } label: {
-                    Text("P")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                }
-                
-                Button {
-                    viewModel.letterKeyPressed("L")
-                } label: {
-                    Text("L")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                }
-                
-                Button {
-                    viewModel.letterKeyPressed("E")
-                } label: {
-                    Text("E")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                }
-                
-                Button {
-                    viewModel.letterKeyPressed("T")
-                } label: {
-                    Text("T")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                }
-                Button {
-                    viewModel.letterKeyPressed("C")
-                } label: {
-                    Text("C")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+                    Text("Reset")
                 }
                 
             }
+            .blur(radius: viewModel.showGameCompletedModal ? 5 : 0)
             
-            HStack {
-                Button {
-                    viewModel.letterKeyPressed("S")
-                } label: {
-                    Text("S")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                }
-                
-                Button {
-                    viewModel.letterKeyPressed("O")
-                } label: {
-                    Text("O")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                }
-                
-                Button {
-                    viewModel.letterKeyPressed("H")
-                } label: {
-                    Text("H")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                }
-                
-                Button {
-                    viewModel.letterKeyPressed("D")
-                } label: {
-                    Text("D")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                }
-                
-                Button {
-                    viewModel.letterKeyPressed("R")
-                } label: {
-                    Text("R")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                }
-                Button {
-                    viewModel.letterKeyPressed("B")
-                } label: {
-                    Text("B")
-                        .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
-                }
-                
-            }
-            
-            Button {
-                viewModel.enterKeyPressed()
-            } label: {
-                Text("Enter!")
-            }
-            
-            Button {
-                viewModel.deleteKeyPressed()
-            } label: {
-                Text("Delete!")
+            if viewModel.showGameCompletedModal {
+                GameCompletedView(isVisible: $viewModel.showGameCompletedModal)
             }
         }
-        .padding()
+        .background(Color(UIColor.systemBackground))
         Spacer()
     }
 }

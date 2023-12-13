@@ -76,18 +76,16 @@ struct GameScreenView: View {
     
     var body: some View {
         ZStack {
-            VStack {
+            VStack {                
                 LazyVGrid(columns: viewModel.gridColumns) {
                     ForEach(viewModel.gridCellModels) { cellModel in
                         LetterGridCellView(cellModel: cellModel)
                     }
                 }
-                .padding(.top, 80)
-                .padding(.horizontal, 30)
+                .padding(.horizontal, 20)
                 .onAppear {
                     viewModel.newGame()
                 }
-                
                 
                 Spacer()
                 HStack {
@@ -110,15 +108,10 @@ struct GameScreenView: View {
                     KeyboardDeleteButton(onPress: { viewModel.deleteKeyPressed() })
                 }
                 
-                Button {
-                    viewModel.resetGrid()
-                } label: {
-                    Text("Reset")
-                }
-                
             }
             .blur(radius: viewModel.showGameCompletedModal ? 5 : 0)
-            
+            .padding(.top, 20)
+
             if viewModel.showGameCompletedModal {
                 GameCompletedView(isVisible: $viewModel.showGameCompletedModal)
             }

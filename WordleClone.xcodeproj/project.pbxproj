@@ -122,19 +122,13 @@
 		2B61AB512B1A1C8C00620295 /* WordleClone */ = {
 			isa = PBXGroup;
 			children = (
+				2B7696342B2A10CD0078DF68 /* Managers */,
+				2B7696332B2A10B80078DF68 /* Models */,
+				2B7696322B2A108C0078DF68 /* Views */,
 				2B4359692B21CF8D00581832 /* Global Extensions */,
 				2B61AB522B1A1C8C00620295 /* WordleCloneApp.swift */,
-				2B61AB542B1A1C8C00620295 /* GameScreenView.swift */,
 				2B61AB562B1A1C8D00620295 /* Assets.xcassets */,
 				2B61AB582B1A1C8D00620295 /* Preview Content */,
-				2B61AB7C2B1A23D500620295 /* GameScreenViewModel.swift */,
-				2B61AB7F2B1A36F200620295 /* MockData.swift */,
-				2B1EA1522B1F7EA1003802E7 /* LetterGridCellView.swift */,
-				2B1EA1542B1F7F30003802E7 /* WordGenerator.swift */,
-				2B1EA1562B1F7F81003802E7 /* LetterGridCellModel.swift */,
-				2B7696242B262D3F0078DF68 /* ColourManager.swift */,
-				2B76962E2B2A09D10078DF68 /* GameCompletedView.swift */,
-				2B7696302B2A09FA0078DF68 /* CircleCloseButton.swift */,
 			);
 			path = WordleClone;
 			sourceTree = "<group>";
@@ -162,6 +156,36 @@
 				2B61AB6F2B1A1C8D00620295 /* WordleCloneUITestsLaunchTests.swift */,
 			);
 			path = WordleCloneUITests;
+			sourceTree = "<group>";
+		};
+		2B7696322B2A108C0078DF68 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2B61AB542B1A1C8C00620295 /* GameScreenView.swift */,
+				2B1EA1522B1F7EA1003802E7 /* LetterGridCellView.swift */,
+				2B76962E2B2A09D10078DF68 /* GameCompletedView.swift */,
+				2B7696302B2A09FA0078DF68 /* CircleCloseButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2B7696332B2A10B80078DF68 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2B61AB7C2B1A23D500620295 /* GameScreenViewModel.swift */,
+				2B61AB7F2B1A36F200620295 /* MockData.swift */,
+				2B1EA1542B1F7F30003802E7 /* WordGenerator.swift */,
+				2B1EA1562B1F7F81003802E7 /* LetterGridCellModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2B7696342B2A10CD0078DF68 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				2B7696242B262D3F0078DF68 /* ColourManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

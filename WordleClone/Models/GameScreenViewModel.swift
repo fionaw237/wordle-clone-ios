@@ -138,20 +138,41 @@ final class GameScreenViewModel: ObservableObject {
     }
     
     func setCellBackgroundColours() {
-        var guessedLetterCounts: [Character : Int] = [:]
-
+        var greenOrYellowLetterCounts: [Character : Int] = [:]
+        var answerLetterCounts: [Character : Int] = [:]
+        
+        answer.forEach { letter in
+            answerLetterCounts[letter] = (answerLetterCounts[letter] ?? 0) + 1
+        }
+        
+        let answerArray = Array(answer)
+        var greenIndices: [Int] = []
+        
         currentGuess.enumerated().forEach { index, letter in
-            if guessedLetterCounts[letter] != nil {
-                guessedLetterCounts[letter]! += 1
-            } else {
-                guessedLetterCounts[letter] = 1
+            if answerArray[index] == letter {
+                greenOrYellowLetterCounts[letter] = (greenOrYellowLetterCounts[letter] ?? 0) + 1
+                greenIndices.append(index)
+            }
+        }
+                
+        for (index, letter) in currentGuess.enumerated() {
+            if greenIndices.contains(index) {
+                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = ColourManager.letterInCorrectPosition
+                continue
             }
             
-            let backgroundColour = getCellBackgroundColour(index: index, letter: letter)
-            guard let value = guessedLetterCounts[letter], value <= answer.filter({ $0 == letter }).count else {
-                return
+            let colouredLetterCount = greenOrYellowLetterCounts[letter] ?? 0
+
+            if let answerLetterCount = answerLetterCounts[letter],
+               answerLetterCount > colouredLetterCount {
+                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = ColourManager.letterInWrongPosition
+                greenOrYellowLetterCounts[letter] = (greenOrYellowLetterCounts[letter] ?? 0) + 1
+                continue
+            } else {
+                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = ColourManager.letterNotInAnswerCell
+                continue
             }
-            gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = backgroundColour
+            
         }
     }
     

@@ -195,7 +195,7 @@ final class GameScreenViewModelTests: XCTestCase {
         }
     }
     
-    func test_setCellBackgroundColours_ifAnswerIsGlassAndGuessIsFoggy_onlyOneLetterGShouldGoYellow() {
+    func test_setCellBackgroundColours_ifAnswerHasOneInstanceOfLetterAndGuessHasTwoInWrongPosition_onlyShouldGoYellow() {
         let mockAnswer = "glass"
         sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
         sut.newGame()
@@ -204,13 +204,23 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertEqual(sut.gridCellModels[3].backgroundColour, ColourManager.letterNotInAnswerCell)
     }
     
-    func test_setCellBackgroundColours_ifAnswerIsPipesAndGuessIsApple_FirstPShouldGoYellowAndSecondGreen() {
+    func test_setCellBackgroundColours_ifAnswerHasTwoInstancesOfLetterOneInIncorrectPosition_OneShouldGoYellowAndTheOtherGreen() {
         let mockAnswer = "pipes"
         sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
         sut.newGame()
         makeGuess("apple")
         XCTAssertEqual(sut.gridCellModels[1].backgroundColour, ColourManager.letterInWrongPosition)
         XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterInCorrectPosition)
+    }
+    
+    func test_setCellBackgroundColours_ifAnswerHasOneInstanceOfLetterAndGuessHasThreeWithFirstTwoInWrongPosition_onlyThirdShouldGoGreen() {
+        let mockAnswer = "rainy"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("nanny")
+        XCTAssertEqual(sut.gridCellModels[0].backgroundColour, ColourManager.letterNotInAnswerCell)
+        XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterNotInAnswerCell)
+        XCTAssertEqual(sut.gridCellModels[3].backgroundColour, ColourManager.letterInCorrectPosition)
     }
     
     func test_showGameCompletedModal_setToTrueWhenGameIsWon() {

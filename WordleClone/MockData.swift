@@ -22,7 +22,10 @@ struct MockData {
         "paint",
         "thing",
         "dance",
-        "apple"
+        "apple",
+        "nanny",
+        "snags",
+        "known"
     ]
     
 }

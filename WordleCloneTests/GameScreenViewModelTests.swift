@@ -195,6 +195,24 @@ final class GameScreenViewModelTests: XCTestCase {
         }
     }
     
+    func test_setCellBackgroundColours_ifAnswerIsGlassAndGuessIsFoggy_onlyOneLetterGShouldGoYellow() {
+        let mockAnswer = "glass"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("foggy")
+        XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterInWrongPosition)
+        XCTAssertEqual(sut.gridCellModels[3].backgroundColour, ColourManager.letterNotInAnswerCell)
+    }
+    
+    func test_setCellBackgroundColours_ifAnswerIsPipesAndGuessIsApple_FirstPShouldGoYellowAndSecondGreen() {
+        let mockAnswer = "pipes"
+        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        sut.newGame()
+        makeGuess("apple")
+        XCTAssertEqual(sut.gridCellModels[1].backgroundColour, ColourManager.letterInWrongPosition)
+        XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterInCorrectPosition)
+    }
+    
     func test_showGameCompletedModal_setToTrueWhenGameIsWon() {
         let mockAnswer = "paint"
         sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
@@ -219,7 +237,7 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertTrue(sut.showGameCompletedModal)
     }
     
-    func test_newGame_resetsGrid() {
+    func test_newGame_resetsGame() {
         let mockAnswer = "paint"
         sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
         sut.newGame()
@@ -228,6 +246,7 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertEqual(sut.currentGuess, "")
         XCTAssertEqual(sut.currentRowIndex, 0)
         XCTAssertTrue(sut.gridCellModels.allSatisfy { gridModel in gridModel.letter == "" })
+        XCTAssertTrue(sut.letterKeyModels.allSatisfy { model in model.backgroundColour == .gray })
     }
     
     func test_initialiseKeyboard_setsKeyboardLetters() {
@@ -280,5 +299,6 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertFalse(sut.letterKeyModels[10].isDisabled)
         XCTAssertFalse(sut.letterKeyModels[24].isDisabled)
     }
+    
     
 }

@@ -99,6 +99,7 @@ final class GameScreenViewModel: ObservableObject {
         currentGuess = ""
         currentRowIndex = 0
         gridCellModels = getInitialGridCells()
+        initialiseKeyboard()
         newGame()
     }
     
@@ -137,8 +138,20 @@ final class GameScreenViewModel: ObservableObject {
     }
     
     func setCellBackgroundColours() {
+        var guessedLetterCounts: [Character : Int] = [:]
+
         currentGuess.enumerated().forEach { index, letter in
-            gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = getCellBackgroundColour(index: index, letter: letter)
+            if guessedLetterCounts[letter] != nil {
+                guessedLetterCounts[letter]! += 1
+            } else {
+                guessedLetterCounts[letter] = 1
+            }
+            
+            let backgroundColour = getCellBackgroundColour(index: index, letter: letter)
+            guard let value = guessedLetterCounts[letter], value <= answer.filter({ $0 == letter }).count else {
+                return
+            }
+            gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = backgroundColour
         }
     }
     

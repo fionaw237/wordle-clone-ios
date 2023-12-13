@@ -8,6 +8,17 @@
 import Foundation
 import SwiftUI
 
+protocol KeyboardKey: Identifiable {
+    var id: UUID { get set }
+    var onPress: () -> Void { get set }
+}
+
+struct KeyboardKeyModel: KeyboardKey {
+    var id = UUID()
+    var value: String
+    var onPress = {}
+}
+
 final class GameScreenViewModel: ObservableObject {
     
     static let numberOfGridCells = 30
@@ -21,10 +32,39 @@ final class GameScreenViewModel: ObservableObject {
         GridItem()
     ]
     
+    var keyboardFirstRowLetters: [KeyboardKeyModel] = []
+    var keyboardSecondRowLetters: [KeyboardKeyModel] = []
+    var keyboardThirdRowLetters: [KeyboardKeyModel] = []
+    
     let wordGenerator: WordGeneratorProtocol
     
     init(wordGenerator: WordGeneratorProtocol) {
         self.wordGenerator = wordGenerator
+        initialiseKeyboard()
+    }
+    
+    private func initialiseKeyboard() {
+        func getKeyboardLetterModels(from lettersString: String) -> [KeyboardKeyModel] {
+            return lettersString.map { letter in
+                let stringValue = String(letter)
+                return KeyboardKeyModel(value: stringValue, onPress: { self.letterKeyPressed(stringValue) })
+            }
+        }
+        
+        keyboardFirstRowLetters =  {
+            let letters = "QWERTYUIOP"
+            return getKeyboardLetterModels(from: letters)
+        }()
+        
+        keyboardSecondRowLetters = {
+            let letters = "ASDFGHJKL"
+            return getKeyboardLetterModels(from: letters)
+        }()
+        
+        keyboardThirdRowLetters = {
+            let letters = "ZXCVBNM"
+            return getKeyboardLetterModels(from: letters)
+        }()
     }
     
     var answer: String = ""
@@ -39,7 +79,7 @@ final class GameScreenViewModel: ObservableObject {
         (currentGuess == answer) || (currentRowIndex == 5)
     }
     
-    @Published var showGameCompletedModal = true
+    @Published var showGameCompletedModal = false
 
     @Published var gridCellModels: [LetterGridCellModel] = {
         // return Array(repeating: GuessedLetter(), count: 30)
@@ -131,6 +171,5 @@ final class GameScreenViewModel: ObservableObject {
     private func gridIndexFromCurrentGuessLetterIndex(_ letterIndex: Int) -> Int {
         (currentRowIndex * Self.numberOfColumns) + letterIndex
     }
-
     
 }

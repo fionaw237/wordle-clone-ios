@@ -230,5 +230,16 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertTrue(sut.gridCellModels.allSatisfy { gridModel in gridModel.letter == "" })
     }
     
+    func test_initialiseKeyboard_setsKeyboardLetters() {
+        let expectedLettersFirstRow = "QWERTYUIOP".map { String($0) }
+        let expectedLettersSecondRow = "ASDFGHJKL".map { String($0) }
+        let expectedLettersThirdRow = "ZXCVBNM".map { String($0) }
+        
+        sut.newGame()
+
+        XCTAssertEqual(sut.keyboardFirstRowLetters.map { $0.value }, expectedLettersFirstRow)
+        XCTAssertEqual(sut.keyboardSecondRowLetters.map { $0.value }, expectedLettersSecondRow)
+        XCTAssertEqual(sut.keyboardThirdRowLetters.map { $0.value }, expectedLettersThirdRow)
+    }
     
 }

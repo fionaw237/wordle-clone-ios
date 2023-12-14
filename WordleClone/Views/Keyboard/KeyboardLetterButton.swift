@@ -10,8 +10,7 @@ import SwiftUI
 struct KeyboardLetterButton: View {
     
     var letterModel: KeyboardLetterKeyModel
-    
-    let keyWidth: CGFloat = (UIScreen.main.bounds.width - 77.0) / 10
+    var keyWidth: CGFloat
     
     var body: some View {
         KeyboardButton(
@@ -26,5 +25,6 @@ struct KeyboardLetterButton: View {
 }
 
 #Preview {
-    KeyboardLetterButton(letterModel: KeyboardLetterKeyModel(value: "A", onPress: {}))
+    KeyboardLetterButton(letterModel: KeyboardLetterKeyModel(value: "A", onPress: {}), keyWidth: (UIScreen.main.bounds.width - 77.0) / 10
+)
 }

@@ -14,16 +14,14 @@ struct KeyboardLetterButton: View {
     let keyWidth: CGFloat = (UIScreen.main.bounds.width - 77.0) / 10
     
     var body: some View {
-        Button {
-            letterModel.onPress()
-        } label: {
+        KeyboardButton(
+            onPress: letterModel.onPress,
+            width: keyWidth,
+            backgroundColour: letterModel.backgroundColour,
+            isDisabled: letterModel.isDisabled
+        ) {
             Text(letterModel.value)
-                .frame(width: keyWidth, height: 60)
-                .background(letterModel.backgroundColour)
-                .foregroundColor(.white)
-                .cornerRadius(4.0)
         }
-        .disabled(letterModel.isDisabled)
     }
 }
 

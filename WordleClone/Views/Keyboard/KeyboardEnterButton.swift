@@ -16,14 +16,8 @@ struct KeyboardEnterButton: View {
     let keyWidth: CGFloat = ((UIScreen.main.bounds.width - 9 * (UIScreen.main.bounds.width - 77.0) / 10)) / 2
     
     var body: some View {
-        Button {
-            onPress()
-        } label: {
+        KeyboardButton(onPress: onPress, width: keyWidth) {
             Text("ENTER")
-                .frame(width: keyWidth, height: 60)
-                .background(.gray)
-                .foregroundColor(.white)
-                .cornerRadius(4.0)
                 .font(.footnote)
         }
     }

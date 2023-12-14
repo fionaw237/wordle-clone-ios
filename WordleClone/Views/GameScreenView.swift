@@ -9,8 +9,12 @@ import SwiftUI
 
 struct GameScreenView: View {
     
-    @StateObject private var viewModel = GameScreenViewModel(wordGenerator: WordGenerator())
-    
+    @ObservedObject var viewModel: GameScreenViewModel
+        
+    init(viewModel: GameScreenViewModel) {
+        self.viewModel = viewModel
+    }
+        
     var body: some View {
         ZStack {
             VStack {
@@ -60,5 +64,5 @@ struct GameScreenView: View {
 
 
 #Preview {
-    GameScreenView()
+    GameScreenView(viewModel: GameScreenViewModel(wordGenerator: WordGenerator()))
 }

@@ -10,9 +10,11 @@ import SwiftUI
 @main
 struct WordleCloneApp: App {
     
+    let viewModel = GameScreenViewModel(wordGenerator: WordGenerator())
+    
     var body: some Scene {
         WindowGroup {
-            GameScreenView()
+            GameScreenView(viewModel: viewModel)
         }
     }
 }

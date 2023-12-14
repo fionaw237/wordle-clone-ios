@@ -8,20 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct KeyboardLetterKeyModel: Identifiable {
-    var id = UUID()
-    var value: String
-    var isDisabled: Bool = false
-    var onPress: () -> Void
-    var backgroundColour: Color = .gray {
-        didSet {
-            if backgroundColour == ColourManager.letterNotInAnswerKeyboard {
-                isDisabled = true
-            }
-        }
-    }
-}
-
 final class GameScreenViewModel: ObservableObject {
     
     static let numberOfGridCells = 30

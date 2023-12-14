@@ -32,6 +32,7 @@
 		2B7696472B2B368F0078DF68 /* ResetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696462B2B368F0078DF68 /* ResetButton.swift */; };
 		2B7696492B2B377C0078DF68 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696482B2B377C0078DF68 /* KeyboardView.swift */; };
 		2B76964B2B2B41300078DF68 /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76964A2B2B41300078DF68 /* KeyboardButton.swift */; };
+		2B76964D2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76964C2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,7 @@
 		2B7696462B2B368F0078DF68 /* ResetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetButton.swift; sourceTree = "<group>"; };
 		2B7696482B2B377C0078DF68 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		2B76964A2B2B41300078DF68 /* KeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
+		2B76964C2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLetterKeyModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +200,7 @@
 			children = (
 				2B61AB7C2B1A23D500620295 /* GameScreenViewModel.swift */,
 				2B1EA1562B1F7F81003802E7 /* LetterGridCellModel.swift */,
+				2B76964C2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				2B7696472B2B368F0078DF68 /* ResetButton.swift in Sources */,
 				2B61AB7D2B1A23D500620295 /* GameScreenViewModel.swift in Sources */,
 				2B76962F2B2A09D10078DF68 /* GameCompletedView.swift in Sources */,
+				2B76964D2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift in Sources */,
 				2B61AB802B1A36F200620295 /* MockData.swift in Sources */,
 				2B61AB552B1A1C8C00620295 /* GameScreenView.swift in Sources */,
 				2B1EA1552B1F7F30003802E7 /* WordGenerator.swift in Sources */,

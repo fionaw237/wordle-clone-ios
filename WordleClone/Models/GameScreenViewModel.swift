@@ -129,7 +129,7 @@ final class GameScreenViewModel: ObservableObject {
     }
         
     private func isValid(word: String) -> Bool {
-        MockData.wordBank.contains(word.lowercased())
+        wordGenerator.wordBank.contains(word.lowercased())
     }
     
     private func moveToNextRow() {

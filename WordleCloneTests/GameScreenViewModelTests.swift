@@ -9,19 +9,6 @@ import XCTest
 import SwiftUI
 @testable import WordleClone
 
-private class WordGeneratorMock: WordGeneratorProtocol {
-    
-    var mockAnswer = ""
-    
-    init(mockAnswer: String = "") {
-        self.mockAnswer = mockAnswer
-    }
-    
-    func generateWord() -> String? {
-        return mockAnswer
-    }
-}
-
 final class GameScreenViewModelTests: XCTestCase {
     
     // MARK: Setup
@@ -69,7 +56,7 @@ final class GameScreenViewModelTests: XCTestCase {
     func test_generateAnswer_generateAnswerFromWordBank() throws {
         sut = GameScreenViewModel(wordGenerator: WordGenerator())
         let answer = try XCTUnwrap(sut.wordGenerator.generateWord())
-        XCTAssertTrue(MockData.wordBank.contains(answer), "Test failed: word bank does not include \(answer)")
+        XCTAssertTrue(sut.wordGenerator.wordBank.contains(answer), "Test failed: word bank does not include \(answer)")
     }
     
     func test_setup_setsGeneratedAnswer() {

@@ -35,37 +35,18 @@ struct GameScreenView: View {
                 }
                 
                 Spacer()
-                HStack {
-                    ForEach(viewModel.letterKeyModels[0...9]) { letterModel in
-                        KeyboardLetterButton(letterModel: letterModel)
-                    }
-                }
                 
-                HStack {
-                    ForEach(viewModel.letterKeyModels[10...18]) { letterModel in
-                        KeyboardLetterButton(letterModel: letterModel)
-                    }
-                }
-                
-                HStack {
-                    KeyboardEnterButton(onPress: { viewModel.enterKeyPressed() })
-                    ForEach(viewModel.letterKeyModels[19...25]) { letterModel in
-                        KeyboardLetterButton(letterModel: letterModel)
-                    }
-                    KeyboardDeleteButton(onPress: { viewModel.deleteKeyPressed() })
-                }
+                KeyboardView(
+                    letterKeyModels: viewModel.letterKeyModels,
+                    onEnterPress: viewModel.enterKeyPressed,
+                    onDeletePress: viewModel.deleteKeyPressed
+                )
                 
             }
             .blur(radius: viewModel.showGameCompletedModal ? 5 : 0)
             .padding(.top, 20)
             .overlay(alignment: .topTrailing) {
-                Button {
-                    viewModel.resetGrid()
-                } label: {
-                    Image(systemName: "arrow.circlepath")
-                        .foregroundColor(Color(UIColor.label))
-                        .padding(20)
-                }
+                ResetButton(onPress: viewModel.resetGrid)
             }
 
             if viewModel.showGameCompletedModal {

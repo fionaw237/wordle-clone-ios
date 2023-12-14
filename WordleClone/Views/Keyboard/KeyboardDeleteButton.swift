@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct KeyboardDeleteButton: View {
+    
     var onPress: () -> Void
-    
-    let letterKeyWidth = (UIScreen.main.bounds.width - 77.0) / 10
-    
-    let keyWidth: CGFloat = ((UIScreen.main.bounds.width - 9 * (UIScreen.main.bounds.width - 77.0) / 10)) / 2
+    let keyWidth: CGFloat
     
     var body: some View {
         KeyboardButton(onPress: onPress, width: keyWidth) { Image(systemName: "delete.left")}
@@ -20,5 +18,5 @@ struct KeyboardDeleteButton: View {
 }
 
 #Preview {
-    KeyboardDeleteButton(onPress: {})
+    KeyboardDeleteButton(onPress: {}, keyWidth: 60.0)
 }

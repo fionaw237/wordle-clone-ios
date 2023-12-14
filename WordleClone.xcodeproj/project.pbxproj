@@ -29,6 +29,9 @@
 		2B76963F2B2B011B0078DF68 /* five-letter-words.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2B76963E2B2B011B0078DF68 /* five-letter-words.txt */; };
 		2B7696432B2B13B10078DF68 /* WordGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696422B2B13B10078DF68 /* WordGeneratorTests.swift */; };
 		2B7696452B2B13D30078DF68 /* WordGeneratorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696442B2B13D30078DF68 /* WordGeneratorMock.swift */; };
+		2B7696472B2B368F0078DF68 /* ResetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696462B2B368F0078DF68 /* ResetButton.swift */; };
+		2B7696492B2B377C0078DF68 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696482B2B377C0078DF68 /* KeyboardView.swift */; };
+		2B76964B2B2B41300078DF68 /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76964A2B2B41300078DF68 /* KeyboardButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +78,9 @@
 		2B76963E2B2B011B0078DF68 /* five-letter-words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "five-letter-words.txt"; sourceTree = "<group>"; };
 		2B7696422B2B13B10078DF68 /* WordGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGeneratorTests.swift; sourceTree = "<group>"; };
 		2B7696442B2B13D30078DF68 /* WordGeneratorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGeneratorMock.swift; sourceTree = "<group>"; };
+		2B7696462B2B368F0078DF68 /* ResetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetButton.swift; sourceTree = "<group>"; };
+		2B7696482B2B377C0078DF68 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
+		2B76964A2B2B41300078DF68 /* KeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,11 +183,12 @@
 		2B7696322B2A108C0078DF68 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2B7696352B2A13280078DF68 /* Keyboard Buttons */,
+				2B7696352B2A13280078DF68 /* Keyboard */,
 				2B61AB542B1A1C8C00620295 /* GameScreenView.swift */,
 				2B1EA1522B1F7EA1003802E7 /* LetterGridCellView.swift */,
 				2B76962E2B2A09D10078DF68 /* GameCompletedView.swift */,
 				2B7696302B2A09FA0078DF68 /* CircleCloseButton.swift */,
+				2B7696462B2B368F0078DF68 /* ResetButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -204,14 +211,16 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
-		2B7696352B2A13280078DF68 /* Keyboard Buttons */ = {
+		2B7696352B2A13280078DF68 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
 				2B7696362B2A133B0078DF68 /* KeyboardDeleteButton.swift */,
 				2B7696382B2A13620078DF68 /* KeyboardEnterButton.swift */,
 				2B76963A2B2A13990078DF68 /* KeyboardLetterButton.swift */,
+				2B7696482B2B377C0078DF68 /* KeyboardView.swift */,
+				2B76964A2B2B41300078DF68 /* KeyboardButton.swift */,
 			);
-			path = "Keyboard Buttons";
+			path = Keyboard;
 			sourceTree = "<group>";
 		};
 		2B76963D2B2B00F50078DF68 /* Data */ = {
@@ -354,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B43596B2B21CFA000581832 /* StringExtensions.swift in Sources */,
+				2B7696472B2B368F0078DF68 /* ResetButton.swift in Sources */,
 				2B61AB7D2B1A23D500620295 /* GameScreenViewModel.swift in Sources */,
 				2B76962F2B2A09D10078DF68 /* GameCompletedView.swift in Sources */,
 				2B61AB802B1A36F200620295 /* MockData.swift in Sources */,
@@ -361,11 +371,13 @@
 				2B1EA1552B1F7F30003802E7 /* WordGenerator.swift in Sources */,
 				2B7696392B2A13620078DF68 /* KeyboardEnterButton.swift in Sources */,
 				2B7696312B2A09FA0078DF68 /* CircleCloseButton.swift in Sources */,
+				2B7696492B2B377C0078DF68 /* KeyboardView.swift in Sources */,
 				2B61AB532B1A1C8C00620295 /* WordleCloneApp.swift in Sources */,
 				2B1EA1572B1F7F81003802E7 /* LetterGridCellModel.swift in Sources */,
 				2B7696372B2A133B0078DF68 /* KeyboardDeleteButton.swift in Sources */,
 				2B1EA1532B1F7EA1003802E7 /* LetterGridCellView.swift in Sources */,
 				2B76963B2B2A13990078DF68 /* KeyboardLetterButton.swift in Sources */,
+				2B76964B2B2B41300078DF68 /* KeyboardButton.swift in Sources */,
 				2B7696252B262D3F0078DF68 /* ColourManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -532,6 +544,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WordleClone/Preview Content\"";
+				DEVELOPMENT_TEAM = BF95HT3K2M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -560,6 +573,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WordleClone/Preview Content\"";
+				DEVELOPMENT_TEAM = BF95HT3K2M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

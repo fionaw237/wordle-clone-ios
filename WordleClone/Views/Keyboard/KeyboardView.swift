@@ -10,7 +10,7 @@ import SwiftUI
 struct KeyboardView: View {
     
     static let letterKeyWidth = (UIScreen.main.bounds.width - 77.0) / 10
-    static let actionButtonWidth = (UIScreen.main.bounds.width - 9 * Self.letterKeyWidth / 10) / 2
+    static let actionButtonWidth = (UIScreen.main.bounds.width - 9 * Self.letterKeyWidth) / 2
     
     var letterKeyModels: [KeyboardLetterKeyModel]
     var onEnterPress: () -> Void
@@ -31,11 +31,11 @@ struct KeyboardView: View {
             }
             
             HStack {
-                KeyboardEnterButton(onPress: onEnterPress)
+                KeyboardEnterButton(onPress: onEnterPress, keyWidth: Self.actionButtonWidth)
                 ForEach(letterKeyModels[19...25]) { letterModel in
                     KeyboardLetterButton(letterModel: letterModel, keyWidth: Self.letterKeyWidth)
                 }
-                KeyboardDeleteButton(onPress: onDeletePress)
+                KeyboardDeleteButton(onPress: onDeletePress, keyWidth: Self.actionButtonWidth)
             }
         }
     }

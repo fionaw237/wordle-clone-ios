@@ -9,6 +9,15 @@ import XCTest
 import SwiftUI
 @testable import WordleClone
 
+private struct MockDictionaryService: DictionaryServiceProtocol {
+    var httpClient: HttpClientProtocol
+    
+    func getDictionaryData(for word: String, completion: @escaping (DictionaryData?) -> Void) {
+        
+    }
+
+}
+
 final class GameScreenViewModelTests: XCTestCase {
     
     // MARK: Setup
@@ -16,7 +25,10 @@ final class GameScreenViewModelTests: XCTestCase {
     var sut: GameScreenViewModel!
 
     override func setUpWithError() throws {
-        sut = GameScreenViewModel(wordGenerator: WordGenerator())
+        sut = GameScreenViewModel(
+            wordGenerator: WordGenerator(),
+            dictionaryService: MockDictionaryService(httpClient: MockHttpClient())
+        )
     }
 
     override func tearDownWithError() throws {
@@ -26,11 +38,21 @@ final class GameScreenViewModelTests: XCTestCase {
     // MARK: Helper functions
     
     private func makeSUT(lettersPressed: [String]) {
-        sut = GameScreenViewModel(wordGenerator: WordGenerator())
+        sut = GameScreenViewModel(
+            wordGenerator: WordGenerator(),
+            dictionaryService: MockDictionaryService(httpClient: MockHttpClient())
+        )
         sut.newGame()
         lettersPressed.forEach { letter in
             sut.letterKeyPressed(String(letter))
         }
+    }
+    
+    private func makeSUTWithMockAnswer(_ answer: String) {
+        sut = GameScreenViewModel(
+            wordGenerator: WordGeneratorMock(mockAnswer: answer),
+            dictionaryService: MockDictionaryService(httpClient: MockHttpClient())
+        )
     }
     
     private func makeGuess(_ guess: String) {
@@ -48,13 +70,16 @@ final class GameScreenViewModelTests: XCTestCase {
     
     func test_newGame_callsWordGenerator_setsAnswerProperty() {
         let mockAnswer = "hello"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer(mockAnswer)
         sut.newGame()
         XCTAssertEqual(sut.answer, mockAnswer)
     }
     
     func test_generateAnswer_generateAnswerFromWordBank() throws {
-        sut = GameScreenViewModel(wordGenerator: WordGenerator())
+        sut = GameScreenViewModel(
+            wordGenerator: WordGenerator(),
+            dictionaryService: MockDictionaryService(httpClient: MockHttpClient())
+        )
         let answer = try XCTUnwrap(sut.wordGenerator.generateWord())
         XCTAssertTrue(sut.wordGenerator.wordBank.contains(answer), "Test failed: word bank does not include \(answer)")
     }
@@ -103,8 +128,7 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_enterKeyPressed_forValidWord_movesToNextRowAndResetCurrentGuess() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeGuess("apple")
         XCTAssertEqual(sut.currentRowIndex, 1)
@@ -139,32 +163,28 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_setCellBackgroundColours_letterFromGuessNotInAnswer_hasPlainBackgroundColour() {
-        let mockAnswer = "apple"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("apple")
         sut.newGame()
         makeGuess("paint")
         XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterNotInAnswerCell)
     }
     
     func test_setCellBackgroundColours_letterFromGuessInWrongPosition_hasYellowBackgroundColour() {
-        let mockAnswer = "apple"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("apple")
         sut.newGame()
         makeGuess("paint")
         XCTAssertEqual(sut.gridCellModels[0].backgroundColour, ColourManager.letterInWrongPosition)
     }
     
     func test_setCellBackgroundColours_letterFromGuessInCorrectPosition_hasGreenBackgroundColour() {
-        let mockAnswer = "thing"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("thing")
         sut.newGame()
         makeGuess("paint")
         XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterInCorrectPosition)
     }
     
     func test_setCellBackgroundColours_secondGuessWithCorrectLetter_hasGreenBackgroundColour() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeGuess("apple")
         makeGuess("fancy")
@@ -172,8 +192,7 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_setCellBackgroundColours_secondGuessWithCorrectWord_hasGreenBackgroundColours() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeGuess("apple")
         makeGuess("paint")
@@ -183,8 +202,7 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_setCellBackgroundColours_ifAnswerHasOneInstanceOfLetterAndGuessHasTwoInWrongPosition_onlyShouldGoYellow() {
-        let mockAnswer = "glass"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("glass")
         sut.newGame()
         makeGuess("foggy")
         XCTAssertEqual(sut.gridCellModels[2].backgroundColour, ColourManager.letterInWrongPosition)
@@ -192,8 +210,7 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_setCellBackgroundColours_ifAnswerHasTwoInstancesOfLetterOneInIncorrectPosition_OneShouldGoYellowAndTheOtherGreen() {
-        let mockAnswer = "pipes"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("pipes")
         sut.newGame()
         makeGuess("apple")
         XCTAssertEqual(sut.gridCellModels[1].backgroundColour, ColourManager.letterInWrongPosition)
@@ -201,8 +218,7 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_setCellBackgroundColours_ifAnswerHasOneInstanceOfLetterAndGuessHasThreeWithFirstTwoInWrongPosition_onlyThirdShouldGoGreen() {
-        let mockAnswer = "rainy"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("rainy")
         sut.newGame()
         makeGuess("nanny")
         XCTAssertEqual(sut.gridCellModels[0].backgroundColour, ColourManager.letterNotInAnswerCell)
@@ -211,32 +227,28 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_showGameCompletedModal_setToTrueWhenGameIsWon() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeGuess("paint")
         XCTAssertTrue(sut.showGameCompletedModal)
     }
     
     func test_showGameCompletedModel_remainsFalseWhenGameNotFinished() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeGuess("apple")
         XCTAssertFalse(sut.showGameCompletedModal)
     }
     
     func test_showGameCompletedModal_setToTrueWhenGameOver() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeRepeatedGuess("teeth", noOfTimes: 6)
         XCTAssertTrue(sut.showGameCompletedModal)
     }
     
     func test_newGame_resetsGame() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeRepeatedGuess("teeth", noOfTimes: 6)
         sut.resetGrid()
@@ -253,24 +265,21 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_setLetterBackgroundColour_setsLetterToGreenWhenGuessedLetterInCorrectPosition() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeGuess("handy")
         XCTAssertEqual(sut.letterKeyModels[10].backgroundColour, ColourManager.letterInCorrectPosition)
     }
     
     func test_setLetterBackgroundColour_setsLetterToYellowWhenGuessedLetterIsNotInCorrectPosition() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeGuess("handy")
         XCTAssertEqual(sut.letterKeyModels[24].backgroundColour, ColourManager.letterInWrongPosition)
     }
     
     func test_setLetterBackgroundColour_setsLetterToDarkGrayWhenGuessedLetterIsNotInAnswer() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeGuess("handy")
         XCTAssertEqual(sut.letterKeyModels[15].backgroundColour, ColourManager.letterNotInAnswerKeyboard)
@@ -279,8 +288,7 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_setLetterBackgroundColour_KeyDisabledWhenLetterNotInAnswer() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeGuess("handy")
         XCTAssertTrue(sut.letterKeyModels[15].isDisabled)
@@ -289,8 +297,7 @@ final class GameScreenViewModelTests: XCTestCase {
     }
     
     func test_setLetterBackgroundColour_KeyEnabledWhenLetterInAnswer() {
-        let mockAnswer = "paint"
-        sut = GameScreenViewModel(wordGenerator: WordGeneratorMock(mockAnswer: mockAnswer))
+        makeSUTWithMockAnswer("paint")
         sut.newGame()
         makeGuess("handy")
         XCTAssertFalse(sut.letterKeyModels[10].isDisabled)

@@ -64,5 +64,8 @@ struct GameScreenView: View {
 
 
 #Preview {
-    GameScreenView(viewModel: GameScreenViewModel(wordGenerator: WordGenerator()))
+    GameScreenView(viewModel: GameScreenViewModel(
+        wordGenerator: WordGenerator(),
+        dictionaryService: DictionaryService(httpClient: HttpClient())
+    ))
 }

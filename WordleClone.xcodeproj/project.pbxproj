@@ -33,6 +33,15 @@
 		2B7696492B2B377C0078DF68 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696482B2B377C0078DF68 /* KeyboardView.swift */; };
 		2B76964B2B2B41300078DF68 /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76964A2B2B41300078DF68 /* KeyboardButton.swift */; };
 		2B76964D2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76964C2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift */; };
+		2B7696502B2B559C0078DF68 /* DictionaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76964F2B2B559C0078DF68 /* DictionaryService.swift */; };
+		2B7696522B2B62AE0078DF68 /* DictionaryServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696512B2B62AE0078DF68 /* DictionaryServiceTests.swift */; };
+		2B7696562B2B896E0078DF68 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696552B2B896E0078DF68 /* HttpClient.swift */; };
+		2B7696582B2B8B6D0078DF68 /* DictionaryAPIResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 2B7696572B2B8B6D0078DF68 /* DictionaryAPIResponse.json */; };
+		2B76965A2B2C64B80078DF68 /* MockHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696592B2C64B80078DF68 /* MockHttpClient.swift */; };
+		2B76965E2B2C6DAE0078DF68 /* WordDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76965D2B2C6DAE0078DF68 /* WordDataResponse.swift */; };
+		2B7696602B2C6DC60078DF68 /* WordMeaning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76965F2B2C6DC60078DF68 /* WordMeaning.swift */; };
+		2B7696622B2C6DDC0078DF68 /* WordDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696612B2C6DDC0078DF68 /* WordDefinition.swift */; };
+		2B7696642B2C6DFB0078DF68 /* DictionaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696632B2C6DFB0078DF68 /* DictionaryData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +92,15 @@
 		2B7696482B2B377C0078DF68 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
 		2B76964A2B2B41300078DF68 /* KeyboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
 		2B76964C2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLetterKeyModel.swift; sourceTree = "<group>"; };
+		2B76964F2B2B559C0078DF68 /* DictionaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryService.swift; sourceTree = "<group>"; };
+		2B7696512B2B62AE0078DF68 /* DictionaryServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryServiceTests.swift; sourceTree = "<group>"; };
+		2B7696552B2B896E0078DF68 /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
+		2B7696572B2B8B6D0078DF68 /* DictionaryAPIResponse.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DictionaryAPIResponse.json; sourceTree = "<group>"; };
+		2B7696592B2C64B80078DF68 /* MockHttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHttpClient.swift; sourceTree = "<group>"; };
+		2B76965D2B2C6DAE0078DF68 /* WordDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDataResponse.swift; sourceTree = "<group>"; };
+		2B76965F2B2C6DC60078DF68 /* WordMeaning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordMeaning.swift; sourceTree = "<group>"; };
+		2B7696612B2C6DDC0078DF68 /* WordDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDefinition.swift; sourceTree = "<group>"; };
+		2B7696632B2C6DFB0078DF68 /* DictionaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +160,7 @@
 		2B61AB512B1A1C8C00620295 /* WordleClone */ = {
 			isa = PBXGroup;
 			children = (
+				2B76964E2B2B55650078DF68 /* Networking */,
 				2B76963D2B2B00F50078DF68 /* Data */,
 				2B7696342B2A10CD0078DF68 /* Managers */,
 				2B7696332B2A10B80078DF68 /* Models */,
@@ -166,9 +185,11 @@
 		2B61AB622B1A1C8D00620295 /* WordleCloneTests */ = {
 			isa = PBXGroup;
 			children = (
+				2B7696652B2C6E5D0078DF68 /* Mocks */,
 				2B61AB632B1A1C8D00620295 /* GameScreenViewModelTests.swift */,
 				2B7696422B2B13B10078DF68 /* WordGeneratorTests.swift */,
-				2B7696442B2B13D30078DF68 /* WordGeneratorMock.swift */,
+				2B7696512B2B62AE0078DF68 /* DictionaryServiceTests.swift */,
+				2B7696572B2B8B6D0078DF68 /* DictionaryAPIResponse.json */,
 			);
 			path = WordleCloneTests;
 			sourceTree = "<group>";
@@ -201,6 +222,7 @@
 				2B61AB7C2B1A23D500620295 /* GameScreenViewModel.swift */,
 				2B1EA1562B1F7F81003802E7 /* LetterGridCellModel.swift */,
 				2B76964C2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift */,
+				2B7696632B2C6DFB0078DF68 /* DictionaryData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -232,6 +254,35 @@
 				2B61AB7F2B1A36F200620295 /* MockData.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		2B76964E2B2B55650078DF68 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				2B76965C2B2C6DA20078DF68 /* API response models */,
+				2B76964F2B2B559C0078DF68 /* DictionaryService.swift */,
+				2B7696552B2B896E0078DF68 /* HttpClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		2B76965C2B2C6DA20078DF68 /* API response models */ = {
+			isa = PBXGroup;
+			children = (
+				2B76965D2B2C6DAE0078DF68 /* WordDataResponse.swift */,
+				2B76965F2B2C6DC60078DF68 /* WordMeaning.swift */,
+				2B7696612B2C6DDC0078DF68 /* WordDefinition.swift */,
+			);
+			path = "API response models";
+			sourceTree = "<group>";
+		};
+		2B7696652B2C6E5D0078DF68 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				2B7696592B2C64B80078DF68 /* MockHttpClient.swift */,
+				2B7696442B2B13D30078DF68 /* WordGeneratorMock.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,6 +399,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B7696582B2B8B6D0078DF68 /* DictionaryAPIResponse.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,19 +422,25 @@
 				2B61AB7D2B1A23D500620295 /* GameScreenViewModel.swift in Sources */,
 				2B76962F2B2A09D10078DF68 /* GameCompletedView.swift in Sources */,
 				2B76964D2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift in Sources */,
+				2B7696622B2C6DDC0078DF68 /* WordDefinition.swift in Sources */,
 				2B61AB802B1A36F200620295 /* MockData.swift in Sources */,
+				2B7696642B2C6DFB0078DF68 /* DictionaryData.swift in Sources */,
 				2B61AB552B1A1C8C00620295 /* GameScreenView.swift in Sources */,
 				2B1EA1552B1F7F30003802E7 /* WordGenerator.swift in Sources */,
+				2B7696502B2B559C0078DF68 /* DictionaryService.swift in Sources */,
 				2B7696392B2A13620078DF68 /* KeyboardEnterButton.swift in Sources */,
+				2B7696562B2B896E0078DF68 /* HttpClient.swift in Sources */,
 				2B7696312B2A09FA0078DF68 /* CircleCloseButton.swift in Sources */,
 				2B7696492B2B377C0078DF68 /* KeyboardView.swift in Sources */,
 				2B61AB532B1A1C8C00620295 /* WordleCloneApp.swift in Sources */,
 				2B1EA1572B1F7F81003802E7 /* LetterGridCellModel.swift in Sources */,
 				2B7696372B2A133B0078DF68 /* KeyboardDeleteButton.swift in Sources */,
 				2B1EA1532B1F7EA1003802E7 /* LetterGridCellView.swift in Sources */,
+				2B7696602B2C6DC60078DF68 /* WordMeaning.swift in Sources */,
 				2B76963B2B2A13990078DF68 /* KeyboardLetterButton.swift in Sources */,
 				2B76964B2B2B41300078DF68 /* KeyboardButton.swift in Sources */,
 				2B7696252B262D3F0078DF68 /* ColourManager.swift in Sources */,
+				2B76965E2B2C6DAE0078DF68 /* WordDataResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,6 +449,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B61AB642B1A1C8D00620295 /* GameScreenViewModelTests.swift in Sources */,
+				2B76965A2B2C64B80078DF68 /* MockHttpClient.swift in Sources */,
+				2B7696522B2B62AE0078DF68 /* DictionaryServiceTests.swift in Sources */,
 				2B7696452B2B13D30078DF68 /* WordGeneratorMock.swift in Sources */,
 				2B7696432B2B13B10078DF68 /* WordGeneratorTests.swift in Sources */,
 			);

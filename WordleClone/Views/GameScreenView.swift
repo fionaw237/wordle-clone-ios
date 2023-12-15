@@ -54,10 +54,16 @@ struct GameScreenView: View {
             }
 
             if viewModel.showGameCompletedModal {
-                GameCompletedView(isVisible: $viewModel.showGameCompletedModal)
+                
             }
         }
         .background(Color(UIColor.systemBackground))
+        .sheet(isPresented: $viewModel.showGameCompletedModal) {
+            GameCompletedView(
+                isVisible: $viewModel.showGameCompletedModal,
+                answerData: viewModel.answerDictionaryData!
+            )
+        }
         Spacer()
     }
 }

@@ -43,7 +43,8 @@ struct GameScreenView: View {
                 KeyboardView(
                     letterKeyModels: viewModel.letterKeyModels,
                     onEnterPress: viewModel.enterKeyPressed,
-                    onDeletePress: viewModel.deleteKeyPressed
+                    onDeletePress: viewModel.deleteKeyPressed,
+                    actionButtonsDisabled: viewModel.keyboardActionButtonsDisabled
                 )
                 
             }

@@ -42,6 +42,7 @@
 		2B7696602B2C6DC60078DF68 /* WordMeaning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B76965F2B2C6DC60078DF68 /* WordMeaning.swift */; };
 		2B7696622B2C6DDC0078DF68 /* WordDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696612B2C6DDC0078DF68 /* WordDefinition.swift */; };
 		2B7696642B2C6DFB0078DF68 /* DictionaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696632B2C6DFB0078DF68 /* DictionaryData.swift */; };
+		2B7696672B30921A0078DF68 /* KeyboardActionButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7696662B30921A0078DF68 /* KeyboardActionButtonModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		2B76965F2B2C6DC60078DF68 /* WordMeaning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordMeaning.swift; sourceTree = "<group>"; };
 		2B7696612B2C6DDC0078DF68 /* WordDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDefinition.swift; sourceTree = "<group>"; };
 		2B7696632B2C6DFB0078DF68 /* DictionaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryData.swift; sourceTree = "<group>"; };
+		2B7696662B30921A0078DF68 /* KeyboardActionButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardActionButtonModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +246,7 @@
 				2B76963A2B2A13990078DF68 /* KeyboardLetterButton.swift */,
 				2B7696482B2B377C0078DF68 /* KeyboardView.swift */,
 				2B76964A2B2B41300078DF68 /* KeyboardButton.swift */,
+				2B7696662B30921A0078DF68 /* KeyboardActionButtonModel.swift */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				2B61AB7D2B1A23D500620295 /* GameScreenViewModel.swift in Sources */,
 				2B76962F2B2A09D10078DF68 /* GameCompletedView.swift in Sources */,
 				2B76964D2B2B4D9E0078DF68 /* KeyboardLetterKeyModel.swift in Sources */,
+				2B7696672B30921A0078DF68 /* KeyboardActionButtonModel.swift in Sources */,
 				2B7696622B2C6DDC0078DF68 /* WordDefinition.swift in Sources */,
 				2B61AB802B1A36F200620295 /* MockData.swift in Sources */,
 				2B7696642B2C6DFB0078DF68 /* DictionaryData.swift in Sources */,

@@ -36,6 +36,7 @@ final class GameScreenViewModel: ObservableObject {
             let stringValue = String(letter)
             return KeyboardLetterKeyModel(value: stringValue, onPress: { self.letterKeyPressed(stringValue) })
         }
+        keyboardActionButtonsDisabled = false
     }
     
     var answer: String = ""
@@ -52,6 +53,8 @@ final class GameScreenViewModel: ObservableObject {
     }
     
     @Published var letterKeyModels: [KeyboardLetterKeyModel] = []
+    
+    @Published var keyboardActionButtonsDisabled: Bool = false
     
     @Published var showGameCompletedModal = false
 
@@ -118,6 +121,7 @@ final class GameScreenViewModel: ObservableObject {
             setKeyboardKeyBackgroundColours()
             if isGameFinished {
                 showGameCompletedModal = true
+                disableKeyboard()
             } else {
                 moveToNextRow()
             }
@@ -131,6 +135,11 @@ final class GameScreenViewModel: ObservableObject {
     private func moveToNextRow() {
         currentRowIndex += 1
         currentGuess = ""
+    }
+    
+    private func disableKeyboard() {
+        (0..<letterKeyModels.count).forEach { letterKeyModels[$0].isDisabled = true }
+        keyboardActionButtonsDisabled = true
     }
     
     func setCellBackgroundColours() {

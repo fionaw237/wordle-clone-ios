@@ -15,6 +15,7 @@ struct KeyboardView: View {
     var letterKeyModels: [KeyboardLetterKeyModel]
     var onEnterPress: () -> Void
     var onDeletePress: () -> Void
+    var actionButtonsDisabled: Bool
     
     var body: some View {
         VStack {
@@ -31,11 +32,11 @@ struct KeyboardView: View {
             }
             
             HStack {
-                KeyboardEnterButton(onPress: onEnterPress, keyWidth: Self.actionButtonWidth)
+                KeyboardEnterButton(onPress: onEnterPress, isDisabled: actionButtonsDisabled, keyWidth: Self.actionButtonWidth)
                 ForEach(letterKeyModels[19...25]) { letterModel in
                     KeyboardLetterButton(letterModel: letterModel, keyWidth: Self.letterKeyWidth)
                 }
-                KeyboardDeleteButton(onPress: onDeletePress, keyWidth: Self.actionButtonWidth)
+                KeyboardDeleteButton(onPress: onDeletePress, isDisabled: actionButtonsDisabled, keyWidth: Self.actionButtonWidth)
             }
         }
     }

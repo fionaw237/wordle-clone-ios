@@ -309,5 +309,22 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertFalse(sut.letterKeyModels[24].isDisabled)
     }
     
+    func test_whenGameEnds_disableAllKeys() {
+        makeSUTWithMockAnswer("paint")
+        sut.newGame()
+        makeRepeatedGuess("teeth", noOfTimes: 6)
+        XCTAssertTrue(sut.letterKeyModels.allSatisfy { $0.isDisabled })
+        XCTAssertTrue(sut.keyboardActionButtonsDisabled)
+    }
+    
+    func test_newGame_enableAllKeys() {
+        makeSUTWithMockAnswer("paint")
+        sut.newGame()
+        makeRepeatedGuess("teeth", noOfTimes: 6)
+        sut.resetGrid()
+        XCTAssertTrue(sut.letterKeyModels.allSatisfy { !$0.isDisabled })
+        XCTAssertFalse(sut.keyboardActionButtonsDisabled)
+    }
+    
     
 }

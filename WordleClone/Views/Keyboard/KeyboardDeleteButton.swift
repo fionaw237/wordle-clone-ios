@@ -10,13 +10,15 @@ import SwiftUI
 struct KeyboardDeleteButton: View {
     
     var onPress: () -> Void
+    var isDisabled: Bool
     let keyWidth: CGFloat
     
     var body: some View {
         KeyboardButton(onPress: onPress, width: keyWidth) { Image(systemName: "delete.left")}
+            .disabled(isDisabled)
     }
 }
 
 #Preview {
-    KeyboardDeleteButton(onPress: {}, keyWidth: 60.0)
+    KeyboardDeleteButton(onPress: {}, isDisabled: false, keyWidth: 60.0)
 }

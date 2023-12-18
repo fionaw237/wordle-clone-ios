@@ -34,7 +34,8 @@ struct MockData {
         "sleep",
         "waist",
         "waste",
-        "mouse"
+        "mouse",
+        "proof"
     ]
     
 }

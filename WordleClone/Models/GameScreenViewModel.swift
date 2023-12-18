@@ -186,7 +186,9 @@ final class GameScreenViewModel: ObservableObject {
     func setKeyboardKeyBackgroundColours() {
         currentGuess.enumerated().forEach { index, letter in
             guard let letterIndex = letterKeyModels.firstIndex(where: { $0.value.lowercased() == String(letter) }) else { return }
-            letterKeyModels[letterIndex].backgroundColour = getLetterKeyBackgroundColour(index: index, letter: letter)
+            if letterKeyModels[letterIndex].backgroundColour != ColourManager.letterInCorrectPosition {
+                letterKeyModels[letterIndex].backgroundColour = getLetterKeyBackgroundColour(index: index, letter: letter)
+            }
         }
     }
     

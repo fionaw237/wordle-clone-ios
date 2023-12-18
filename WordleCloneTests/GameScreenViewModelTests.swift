@@ -283,6 +283,13 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertEqual(sut.letterKeyModels[24].backgroundColour, ColourManager.letterInWrongPosition)
     }
     
+    func test_setLetterBackgroundColour_setsToGreenWhenSecondGuessOfLetterIsInWrongPosition() {
+        makeSUTWithMockAnswer("crocs")
+        sut.newGame()
+        makeGuess("proof")
+        XCTAssertEqual(sut.letterKeyModels[8].backgroundColour, ColourManager.letterInCorrectPosition, "The letter O key should be coloured green here")
+    }
+    
     func test_setLetterBackgroundColour_setsLetterToDarkGrayWhenGuessedLetterIsNotInAnswer() {
         makeSUTWithMockAnswer("paint")
         sut.newGame()

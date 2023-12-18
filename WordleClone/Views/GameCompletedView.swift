@@ -16,16 +16,33 @@ struct GameCompletedView: View {
     var body: some View {
         VStack {
             Text(message)
+                .font(.title)
                 .bold()
-            Text("Answer is \(answerData.word)")
-            Text("Definition")
-                .bold()
-            Text(answerData.definition)
+                .padding(.bottom, 50)
+            Spacer()
+            VStack {
+                HStack {
+                    Text("Answer is")
+                    Text("\(answerData.word)")
+                        .font(.title2)
+                        .bold()
+                }
+                .padding()
+                Text("Definition")
+                    .bold()
+                Text(answerData.definition)
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
+            .border(ColourManager.letterInCorrectPosition, width: 2)
+            .cornerRadius(4.0)
+            Spacer()
+            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(radius: 40)
+        .padding()
         .overlay(alignment: .topTrailing) {
             Button {
                 isVisible = false

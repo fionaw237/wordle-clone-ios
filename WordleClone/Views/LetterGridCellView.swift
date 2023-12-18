@@ -16,7 +16,7 @@ struct LetterGridCellView: View {
             .frame(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
             .foregroundStyle(Color(UIColor.label))
             .background(cellModel.backgroundColour)
-            .border(cellModel.letter.isEmpty ? .gray : Color(UIColor.label), width: 1)
+            .border(cellModel.borderColour ?? .clear, width: 1)
             .font(.largeTitle)
     }
 }

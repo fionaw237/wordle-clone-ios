@@ -97,7 +97,10 @@ final class GameScreenViewModel: ObservableObject {
     
     func letterKeyPressed(_ letter: String) {
         if !isRowFull {
-            gridCellModels[currentLetterIndex] = LetterGridCellModel(letter: letter)
+            gridCellModels[currentLetterIndex] = LetterGridCellModel(
+                letter: letter,
+                borderColour: ColourManager.highlightedLetter
+            )
             currentGuess += letter.lowercased()
         }
     }
@@ -106,6 +109,7 @@ final class GameScreenViewModel: ObservableObject {
         guard currentGuess.isNotEmpty else { return }    
         currentGuess.removeLast()
         gridCellModels[currentLetterIndex].letter = ""
+        gridCellModels[currentLetterIndex].borderColour = ColourManager.unenteredLetter
     }
     
     func enterKeyPressed() {
@@ -148,6 +152,8 @@ final class GameScreenViewModel: ObservableObject {
         }
                 
         for (index, letter) in currentGuess.enumerated() {
+            gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].borderColour = .clear
+            
             if greenIndices.contains(index) {
                 gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = ColourManager.letterInCorrectPosition
                 continue

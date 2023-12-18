@@ -12,4 +12,5 @@ struct LetterGridCellModel: Identifiable {
     var id = UUID()
     var letter: String = ""
     var backgroundColour: Color = Color(UIColor.systemBackground)
+    var borderColour: Color? = .gray
 }

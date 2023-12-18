@@ -93,6 +93,8 @@ final class GameScreenViewModelTests: XCTestCase {
         sut.letterKeyPressed("A")
         XCTAssertEqual(sut.currentGuess, "a")
         XCTAssertEqual(sut.gridCellModels[0].letter, "A")
+        XCTAssertEqual(sut.gridCellModels[0].borderColour, ColourManager.highlightedLetter)
+        XCTAssertEqual(sut.gridCellModels[1].borderColour, ColourManager.unenteredLetter)
     }
     
     func test_letterKeyPressed_whenRowIsFull_doesNotUpdateCurrentGuessOrRowIndex() {
@@ -118,6 +120,7 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertEqual(sut.gridCellModels[1].letter, "P")
         XCTAssertEqual(sut.gridCellModels[2].letter, "")
         XCTAssertEqual(sut.currentGuess, "ap")
+        XCTAssertEqual(sut.gridCellModels[2].borderColour, ColourManager.unenteredLetter)
     }
     
     func test_deletePressed_WhenRowIsFull_removesLastLetter() {
@@ -135,9 +138,11 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertEqual(sut.currentGuess, "")
     }
     
-    func test_enterKeyPressed_forValidWord_resetsCurrentGuess() {
-        makeSUT(lettersPressed: ["A", "P", "P", "L", "E"])
-        sut.enterKeyPressed()
+    func test_enterKeyPressed_forValidWord_cellsHaveClearBorder() {
+        makeSUTWithMockAnswer("paint")
+        sut.newGame()
+        makeGuess("apple")
+        XCTAssertEqual(sut.gridCellModels[0].borderColour, Color.clear)
     }
     
     func test_enterKeyPressed_whenRowIsNotFull_doesNothing() {

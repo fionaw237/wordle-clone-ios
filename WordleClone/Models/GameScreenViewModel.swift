@@ -40,7 +40,7 @@ final class GameScreenViewModel: ObservableObject {
     }
     
     var answer: String = ""
-    var answerDictionaryData: DictionaryData?
+    var answerDictionaryData = DictionaryData(word: "")
     var currentGuess = ""
     var currentRowIndex = 0
     var currentLetterIndex: Int { (currentRowIndex * Self.numberOfColumns) + currentGuess.count }
@@ -84,8 +84,8 @@ final class GameScreenViewModel: ObservableObject {
     func newGame() {
         guard let generatedAnswer = wordGenerator.generateWord() else { return }
         answer = generatedAnswer
-        dictionaryService.getDictionaryData(for: generatedAnswer) { [weak self] data in
-            self?.answerDictionaryData = data
+        Task {
+            answerDictionaryData = try await dictionaryService.getDictionaryData(for: generatedAnswer)
         }
         print("Answer: \(answer)")
     }

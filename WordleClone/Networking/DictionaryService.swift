@@ -9,32 +9,18 @@ import Foundation
 
 protocol DictionaryServiceProtocol {
     var httpClient: HttpClientProtocol { get set }
-    func getDictionaryData(for word: String, completion: @escaping (DictionaryData?) -> Void)
-}
-
-enum DataFetchError: String, Error {
-    case urlCreation = "Could not create URL."
-    case decode = "Error decoding JSON."
-    case server = "The server responded with an error."
+    func getDictionaryData(for word: String) async throws -> DictionaryData
 }
 
 struct DictionaryService: DictionaryServiceProtocol {
     var httpClient: HttpClientProtocol
-    
-    func getDictionaryData(for word: String, completion: @escaping (DictionaryData?) -> Void) {
-        guard let url = URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(word)") else {
-//            throw DataFetchError.urlCreation
-            return
-        }
-        
-        httpClient.fetchData(from: url) { (data: [WordDataResponse]) in
-            let definition = data.first?.meanings.first?.definitions.first?.definition
-            guard let definition else {
-                completion(nil)
-                return
-            }
-            completion(DictionaryData(word: word, definition: definition))
-        }
 
+    func getDictionaryData(for word: String) async throws -> DictionaryData {
+        guard let url = URL(string: "https://api.dictionaryapi.dev/api/v2/entries/en/\(word)") else {
+            return DictionaryData(word: word)
+        }
+        let data: [WordDataResponse] = try await httpClient.fetchData(from: url)
+        let definition = data.first?.meanings.first?.definitions.first?.definition ?? ""
+        return DictionaryData(word: word, definition: definition)
     }
 }

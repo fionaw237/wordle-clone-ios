@@ -9,5 +9,5 @@ import Foundation
 
 struct DictionaryData: Decodable {
     var word: String
-    var definition: String
+    var definition: String = ""
 }

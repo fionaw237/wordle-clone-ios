@@ -12,20 +12,20 @@ enum HttpError: Error {
 }
 
 protocol HttpClientProtocol {
-    func fetchData<T: Decodable>(from url: URL, completion: @escaping ([T]) -> Void)
+    func fetchData<T: Decodable>(from url: URL) async throws -> [T]
 }
 
 // TODO: Handle errors
 struct HttpClient: HttpClientProtocol {
-    func fetchData<T: Decodable>(from url: URL, completion: @escaping ([T]) -> Void) {
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard (response as? HTTPURLResponse)?.statusCode == 200, let data else {
-                return
-            }
-            guard let decodedData = try? JSONDecoder().decode([T].self, from: data) else {
-                return
-            }
-            completion(decodedData)
-        }.resume()
+    func fetchData<T>(from url: URL) async throws -> [T] where T : Decodable {
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            return []
+        }
+        guard let decodedData = try? JSONDecoder().decode([T].self, from: data) else {
+            return []
+        }
+        return decodedData
     }
 }

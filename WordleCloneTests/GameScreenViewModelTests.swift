@@ -12,10 +12,9 @@ import SwiftUI
 private struct MockDictionaryService: DictionaryServiceProtocol {
     var httpClient: HttpClientProtocol
     
-    func getDictionaryData(for word: String, completion: @escaping (DictionaryData?) -> Void) {
-        
+    func getDictionaryData(for word: String) async throws -> DictionaryData {
+        return DictionaryData(word: word, definition: "A definition")
     }
-
 }
 
 final class GameScreenViewModelTests: XCTestCase {
@@ -332,6 +331,5 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertTrue(sut.letterKeyModels.allSatisfy { !$0.isDisabled })
         XCTAssertFalse(sut.keyboardActionButtonsDisabled)
     }
-    
     
 }

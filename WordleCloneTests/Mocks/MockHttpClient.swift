@@ -9,7 +9,7 @@ import Foundation
 @testable import WordleClone
 
 struct MockHttpClient: HttpClientProtocol {
-    func fetchData<T>(from url: URL, completion: @escaping ([T]) -> Void) where T : Decodable {
-        
+    func fetchData<T>(from url: URL) async throws -> [T] where T : Decodable {
+        return []
     }
 }

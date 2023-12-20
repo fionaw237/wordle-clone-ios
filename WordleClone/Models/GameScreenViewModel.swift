@@ -53,6 +53,7 @@ final class GameScreenViewModel: ObservableObject {
     var isRowFull: Bool {
         currentGuess.count == 5
     }
+    
     var isGameWon: Bool {
         currentGuess == answer
     }
@@ -162,36 +163,23 @@ final class GameScreenViewModel: ObservableObject {
             answerLetterCounts[letter] = (answerLetterCounts[letter] ?? 0) + 1
         }
         
-        let answerArray = Array(answer)
-        var greenIndices: [Int] = []
-        
         currentGuess.enumerated().forEach { index, letter in
-            if answerArray[index] == letter {
+            if Array(answer)[index] == letter {
                 greenOrYellowLetterCounts[letter] = (greenOrYellowLetterCounts[letter] ?? 0) + 1
-                greenIndices.append(index)
             }
         }
                 
         for (index, letter) in currentGuess.enumerated() {
             gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].borderColour = .clear
             
-            if greenIndices.contains(index) {
-                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].letterState = .inWord
-                continue
-            }
-            
             let colouredLetterCount = greenOrYellowLetterCounts[letter] ?? 0
-
-            if let answerLetterCount = answerLetterCounts[letter],
-               answerLetterCount > colouredLetterCount {
-                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].letterState = .inWrongPosition
-                greenOrYellowLetterCounts[letter] = (greenOrYellowLetterCounts[letter] ?? 0) + 1
-                continue
-            } else {
-                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].letterState = .notInWord
-                continue
-            }
             
+            let newLetterState = getLetterState(for: index, letter: letter, answerLetterCount: answerLetterCounts[letter] ?? 0, colouredLetterCount: colouredLetterCount)
+            gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].letterState = newLetterState
+            
+            if newLetterState == .inWrongPosition {
+                greenOrYellowLetterCounts[letter] = (greenOrYellowLetterCounts[letter] ?? 0) + 1
+            }
         }
     }
     
@@ -201,6 +189,17 @@ final class GameScreenViewModel: ObservableObject {
             if letterKeyModels[letterIndex].backgroundColour != ColourManager.letterInCorrectPosition {
                 letterKeyModels[letterIndex].backgroundColour = getLetterKeyBackgroundColour(index: index, letter: letter)
             }
+        }
+    }
+    
+    func getLetterState(for index: Int, letter: Character, answerLetterCount: Int, colouredLetterCount: Int) -> LetterState {
+        if Array(answer)[index] == letter {
+            return .inWord
+        }
+        if answerLetterCount > colouredLetterCount {
+            return .inWrongPosition
+        } else {
+            return .notInWord
         }
     }
     

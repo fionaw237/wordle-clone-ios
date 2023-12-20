@@ -176,7 +176,7 @@ final class GameScreenViewModel: ObservableObject {
             gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].borderColour = .clear
             
             if greenIndices.contains(index) {
-                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = ColourManager.letterInCorrectPosition
+                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].letterState = .inWord
                 continue
             }
             
@@ -184,11 +184,11 @@ final class GameScreenViewModel: ObservableObject {
 
             if let answerLetterCount = answerLetterCounts[letter],
                answerLetterCount > colouredLetterCount {
-                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = ColourManager.letterInWrongPosition
+                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].letterState = .inWrongPosition
                 greenOrYellowLetterCounts[letter] = (greenOrYellowLetterCounts[letter] ?? 0) + 1
                 continue
             } else {
-                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].backgroundColour = ColourManager.letterNotInAnswerCell
+                gridCellModels[gridIndexFromCurrentGuessLetterIndex(index)].letterState = .notInWord
                 continue
             }
             

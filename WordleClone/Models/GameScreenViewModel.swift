@@ -186,9 +186,11 @@ final class GameScreenViewModel: ObservableObject {
     func setKeyboardKeyBackgroundColours() {
         currentGuess.enumerated().forEach { index, letter in
             guard let letterIndex = letterKeyModels.firstIndex(where: { $0.value.lowercased() == String(letter) }) else { return }
-            if letterKeyModels[letterIndex].backgroundColour != ColourManager.letterInCorrectPosition {
-                letterKeyModels[letterIndex].backgroundColour = getLetterKeyBackgroundColour(index: index, letter: letter)
-            }
+            letterKeyModels[letterIndex].backgroundColour = getLetterKeyBackgroundColour(
+                index: index,
+                letter: letter,
+                currentColour: letterKeyModels[letterIndex].backgroundColour
+            )
         }
     }
     
@@ -203,26 +205,16 @@ final class GameScreenViewModel: ObservableObject {
         }
     }
     
-    func getLetterKeyBackgroundColour(index: Int, letter: Character) -> Color {
+    func getLetterKeyBackgroundColour(index: Int, letter: Character, currentColour: Color) -> Color {
         let answerArray = Array(answer)
-        if answerArray[index] == letter {
+        let correctPosition = (answerArray[index] == letter) || (currentColour == ColourManager.letterInCorrectPosition)
+        if correctPosition {
             return ColourManager.letterInCorrectPosition
         }
         if answerArray.contains(letter) {
             return ColourManager.letterInWrongPosition
         }
         return ColourManager.letterNotInAnswerKeyboard
-    }
-    
-    func getCellBackgroundColour(index: Int, letter: Character) -> Color {
-        let answerArray = Array(answer)
-        if answerArray[index] == letter {
-            return ColourManager.letterInCorrectPosition
-        }
-        if answerArray.contains(letter) {
-            return ColourManager.letterInWrongPosition
-        }
-        return ColourManager.letterNotInAnswerCell
     }
     
     private func gridIndexFromCurrentGuessLetterIndex(_ letterIndex: Int) -> Int {

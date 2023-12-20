@@ -11,11 +11,11 @@ struct GameCompletedView: View {
     
     @Binding var isVisible: Bool
     var answerData: DictionaryData
-    var message: String = "You won!"
+    var message: GameCompletedMessage
     
     var body: some View {
         VStack {
-            Text(message)
+            Text(message.rawValue)
                 .font(.title)
                 .bold()
                 .padding(.bottom, 50)
@@ -54,5 +54,5 @@ struct GameCompletedView: View {
 }
 
 #Preview {
-    GameCompletedView(isVisible: .constant(true), answerData: DictionaryData(word: "Hello", definition: "A greeting"))
+    GameCompletedView(isVisible: .constant(true), answerData: DictionaryData(word: "Hello", definition: "A greeting"), message: .won)
 }

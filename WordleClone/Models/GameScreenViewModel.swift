@@ -8,6 +8,11 @@
 import Foundation
 import SwiftUI
 
+enum GameCompletedMessage: String {
+    case won = "You won!"
+    case lost = "Better luck next time!"
+}
+
 final class GameScreenViewModel: ObservableObject {
     
     static let numberOfGridCells = 30
@@ -48,9 +53,15 @@ final class GameScreenViewModel: ObservableObject {
     var isRowFull: Bool {
         currentGuess.count == 5
     }
-    var isGameFinished: Bool {
-        (currentGuess == answer) || (currentRowIndex == 5)
+    var isGameWon: Bool {
+        currentGuess == answer
     }
+    
+    var isGameFinished: Bool {
+        isGameWon || (currentRowIndex == 5)
+    }
+    
+    var gameCompletedMessage: GameCompletedMessage = .won
     
     @Published var letterKeyModels: [KeyboardLetterKeyModel] = []
     
@@ -121,6 +132,7 @@ final class GameScreenViewModel: ObservableObject {
             setKeyboardKeyBackgroundColours()
             if isGameFinished {
                 showGameCompletedModal = true
+                gameCompletedMessage = isGameWon ? .won : .lost
                 disableKeyboard()
             } else {
                 moveToNextRow()

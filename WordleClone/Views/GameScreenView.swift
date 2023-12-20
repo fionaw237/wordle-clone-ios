@@ -62,7 +62,8 @@ struct GameScreenView: View {
         .sheet(isPresented: $viewModel.showGameCompletedModal) {
             GameCompletedView(
                 isVisible: $viewModel.showGameCompletedModal,
-                answerData: viewModel.answerDictionaryData
+                answerData: viewModel.answerDictionaryData,
+                message: viewModel.gameCompletedMessage
             )
         }
         Spacer()

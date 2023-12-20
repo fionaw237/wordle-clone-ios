@@ -251,6 +251,20 @@ final class GameScreenViewModelTests: XCTestCase {
         XCTAssertTrue(sut.showGameCompletedModal)
     }
     
+    func test_gameCompletedMessage_showWinningMessageWhenGameWon() {
+        makeSUTWithMockAnswer("paint")
+        sut.newGame()
+        makeGuess("paint")
+        XCTAssertEqual(sut.gameCompletedMessage, .won)
+    }
+    
+    func test_gameCompletedMessage_showLosingMessageWhenGameWon() {
+        makeSUTWithMockAnswer("paint")
+        sut.newGame()
+        makeRepeatedGuess("teeth", noOfTimes: 6)
+        XCTAssertEqual(sut.gameCompletedMessage, .lost)
+    }
+    
     func test_newGame_resetsGame() {
         makeSUTWithMockAnswer("paint")
         sut.newGame()

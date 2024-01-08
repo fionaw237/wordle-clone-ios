@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct ColourManager {
-    static let highlightedLetter = Color.white
+    static let highlightedLetter = Color(UIColor.label)
     static let unenteredLetter = Color.gray
     static let incompleteCell = Color(UIColor.systemBackground)
     static let letterNotInAnswerCell = Color(.darkGray)
